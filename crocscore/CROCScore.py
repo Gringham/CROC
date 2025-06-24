@@ -4,7 +4,7 @@ import tqdm
 from transformers import AutoProcessor, AutoModelForCausalLM
 from metrics.BaseMetric import BaseMetric  # adjust this import based on your project structure
 
-class PhiScore(BaseMetric):
+class CROCScore(BaseMetric):
     def __init__(
         self,
         checkpoint_dir: str = "./tune_phi/outputs3",
@@ -44,7 +44,7 @@ class PhiScore(BaseMetric):
 
     def get_state(self) -> str:
         return (
-            f"PhiScore using model @ {self.checkpoint_dir} "
+            f"CROCScore using model @ {self.checkpoint_dir} "
             f"(flash_attention={self.use_flash_attention}), batch_size={self.batch_size}"
         )
 
@@ -116,7 +116,7 @@ class PhiScore(BaseMetric):
 
 
 if __name__ == "__main__":
-    metric = PhiScore(
+    metric = CROCScore(
         checkpoint_dir="./tune_phi/outputs_custom_loss",
         device="cuda",
         use_flash_attention=True,
