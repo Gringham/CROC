@@ -5,15 +5,14 @@ import pandas as pd
 import torch
 from tqdm import tqdm
 
-from vmen.metrics.VQAScore import VQAScore
-from vmen.metrics.PickScore import PickScore
-from vmen.metrics.Alignscore import Alignscore
-from vmen.metrics.BVQA import BVQA
-from vmen.metrics.ClipScore import ClipScore
-from vmen.metrics.DSG import DSG
-from vmen.metrics.RandomScore import RandomScore
-# from vmen.metrics.TIFA import TIFA
-# from vmen.metrics.VIE_Score import VIE_Score
+from metrics.VQAScore import VQAScore
+from metrics.PickScore import PickScore
+from metrics.Alignscore import Alignscore
+from metrics.BVQA import BVQA
+from metrics.ClipScore import ClipScore
+from metrics.RandomScore import RandomScore
+from CROC.crocscore import CROCScore
+
 
 class MetricCatalogue:
     def __init__(self):
@@ -22,12 +21,11 @@ class MetricCatalogue:
             "CLIPScore": (ClipScore, [], {}),
             "CLIPScore_Large": (ClipScore, ["openai/clip-vit-large-patch14"], {}),
             "SSAlign": (Alignscore, ["ALIGN"], {}),
-            "SSBlip": (Alignscore, ["BLIP"], {}),
-            "SSClip": (Alignscore, ["CLIP"], {}),
             "PickScore": (PickScore, [], {}),
             "VQAScore": (VQAScore, [], {}),
             "Blip2ITM": (VQAScore, [], {"base": "blip2itm"}),
             "RandomScore": (RandomScore, [], {}),
+            "PhiScore_R2": (CROCScore, [], {"checkpoint_dir": "./tune_phi/outputs_repr"}),
         }
         self.subset = self.metrics
 

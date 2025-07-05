@@ -7,6 +7,7 @@ import base64
 from tqdm import tqdm
 import concurrent.futures
 
+# Putting our dataset into a format similar to PickScore. I.e. each image is included as a B64 string
 # Define your path dictionaries.
 path1 = {
     "path": "CROC/datasets/post_prompt_gen_transformed/qwen_qwq_32b/all_prompts_all_cot_with_generated_outputs_sd_new.parquet",
@@ -91,11 +92,7 @@ mask_prompts = df['img_paths_prompts'].apply(os.path.exists)
 mask_contrast = df['img_paths_contrast'].apply(os.path.exists)
 df = df[mask_prompts & mask_contrast].reset_index(drop=True)
 
-
-# ==================================================
-# New section: convert PNG images to JPEG and encode in base64.
-# ==================================================
-
+# Convert to b64
 def process_image(image_path):
     """
     Open a PNG image from the given path, convert to JPEG (RGB),

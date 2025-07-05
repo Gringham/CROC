@@ -4,7 +4,7 @@ import tqdm
 from transformers import AutoProcessor, AutoModelForCausalLM
 from metrics.BaseMetric import BaseMetric  # adjust this import based on your project structure
 
-class PhiScore(BaseMetric):
+class CROCScore(BaseMetric):
     def __init__(
         self,
         checkpoint_dir: str = "./tune_phi/outputs3",

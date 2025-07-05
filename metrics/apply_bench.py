@@ -127,10 +127,10 @@ def main():
     )
     
     parser.add_argument(
-    '--prompt_file',
-    type=str,  # Change from 'action=store_true' to 'type=str'
-    default="CROC/datasets/post_prompt_gen_transformed/deepseek_r1_distill_qwen_14b/extracted_prompts_all_cot.parquet",
-    help='Input prompts file'
+        '--prompt_file',
+        type=str,  # Change from 'action=store_true' to 'type=str'
+        default="CROC/datasets/post_prompt_gen_transformed/deepseek_r1_distill_qwen_14b/extracted_prompts_all_cot.parquet",
+        help='Input prompts file'
     )
 
     parser.add_argument(
@@ -138,20 +138,6 @@ def main():
         type=str,  # Change from 'action=store_true' to 'type=str'
         default="CROC/outputs/images/deepseek_r1_distill_qwen_14b/stable_diffusion_3_5_large_turbo",
         help='Generated images directory'
-    )
-
-    parser.add_argument(
-        '--dsg_question_cache',
-        type=str,  # Change from 'action=store_true' to 'type=str'
-        default='CROC/backup/dsgq1.pkl',
-        help='DSG question cache file'
-    )
-
-    parser.add_argument(
-        '--dsg_dependency_cache',
-        type=str,  # Change from 'action=store_true' to 'type=str'
-        default='CROC/backup/dsgd1.pkl',
-        help='DSG dependency cache file'
     )
 
     parser.add_argument(
@@ -197,8 +183,6 @@ def main():
     print(f"Resume: {args.resume}")
     print(f"Prompt file: {args.prompt_file}")
     print(f"Image directory: {args.img_dir}")
-    print(f"DSG question cache: {args.dsg_question_cache}")
-    print(f"DSG dependency cache: {args.dsg_dependency_cache}")
     print(f"Output files: {args.output_files}")
     print(f"Subset: {args.subset}")
     print(f"Filter mode: {args.filter_mode}")
@@ -211,8 +195,6 @@ def main():
             prompt2="contrast_text",
             img2="orig_img",
             prompt_file=args.prompt_file,
-            dsg_question_cache=args.dsg_question_cache,
-            dsg_dependency_cache=args.dsg_dependency_cache,
             image_dir=args.img_dir,
             resume=args.resume,
             output_files=args.output_files,
@@ -230,8 +212,6 @@ def main():
             prompt2="orig_text",
             img2="contrast_img",
             prompt_file=args.prompt_file,
-            dsg_question_cache=args.dsg_question_cache,
-            dsg_dependency_cache=args.dsg_dependency_cache,
             image_dir=args.img_dir,
             resume=args.resume,
             output_files=args.output_files,
@@ -248,8 +228,6 @@ def main():
             prompt2="orig_text",
             img2="contrast_img",
             prompt_file=args.prompt_file,
-            dsg_question_cache=args.dsg_question_cache,
-            dsg_dependency_cache=args.dsg_dependency_cache,
             image_dir=args.img_dir,
             resume=args.resume,
             output_files=args.output_files,
@@ -267,8 +245,6 @@ def main():
             prompt2="contrast_text",
             img2="orig_img",
             prompt_file=args.prompt_file,
-            dsg_question_cache=args.dsg_question_cache,
-            dsg_dependency_cache=args.dsg_dependency_cache,
             image_dir=args.img_dir,
             resume=args.resume,
             output_files=args.output_files,
