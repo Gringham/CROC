@@ -44,7 +44,7 @@ class CROCScore(BaseMetric):
 
     def get_state(self) -> str:
         return (
-            f"PhiScore using model @ {self.checkpoint_dir} "
+            f"CROCScore using model @ {self.checkpoint_dir} "
             f"(flash_attention={self.use_flash_attention}), batch_size={self.batch_size}"
         )
 
@@ -116,7 +116,7 @@ class CROCScore(BaseMetric):
 
 
 if __name__ == "__main__":
-    metric = PhiScore(
+    metric = CROCScore(
         checkpoint_dir="./tune_phi/outputs_custom_loss",
         device="cuda",
         use_flash_attention=True,
