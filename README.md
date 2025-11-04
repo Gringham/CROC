@@ -1,14 +1,8 @@
 # CROC <br><sub><sup>CROC: Evaluating and Training T2I Metrics with Pseudo- and Human-Labeled Contrastive Robustness Checks</sup></sub>
 
-In this repository, we release the source code of our dataset CROC and the metric CROCScore. For usage instructions, please see the respective folder's readme files, as well as the main part of the scripts and comments in the code. In the coming days we will upload all parts of the code step-by-step.
+In this repository, we release the source code of our dataset CROC and the metric CROCScore. For usage instructions, please see the respective folder's readme files, as well as the main part of the scripts and comments in the code. 
 
 [![📄 arXiv](https://img.shields.io/badge/View%20on%20arXiv-B31B1B?logo=arxiv&labelColor=gray)](https://arxiv.org/abs/2505.11314)
-
-
-## Timeline
-
-* 06.2025 We release the Code of CROC
-* 05.2025 CROC is out on Arxiv
 
 ## 📁 Repository Structure
 
