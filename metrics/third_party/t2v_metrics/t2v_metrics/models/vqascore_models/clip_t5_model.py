@@ -204,12 +204,16 @@ class CLIPT5Model(VQAScoreModel):
         )
 
     def load_images(self,
-                    image: List[str]) -> torch.Tensor:
+                    image) -> torch.Tensor:
         """Load the image(s), and return a tensor (after preprocessing) put on self.device
         """
+        
         image = [self.image_loader(x) for x in image]
-        if self.image_aspect_ratio == 'pad':
-            image = [expand2square(image, tuple(int(x*255) for x in self.image_processor.image_mean)) for image in image]
+        try:
+            if self.image_aspect_ratio == 'pad':
+                image = [expand2square(image, tuple(int(x*255) for x in self.image_processor.image_mean)) for image in image]
+        except:
+            pass
         image = [self.image_processor.preprocess(image, return_tensors='pt')['pixel_values'][0] for image in image]
         assert all(x.shape == image[0].shape for x in image)
         image = torch.stack(image, dim=0).to(self.device)

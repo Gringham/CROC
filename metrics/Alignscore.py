@@ -1,75 +1,93 @@
 import tqdm, os
-from sklearn.preprocessing import MinMaxScaler
 
-
-from vmen.metrics.BaseMetric import BaseMetric
-from vmen.project_root import CACHE_DIR, join_with_root
-
-# Implementation adapted from https://github.com/michaelsaxon/T2IScoreScore (January) - see third party folder
+from metrics.BaseMetric import BaseMetric
+from metrics.third_party.T2IScoreScore.src.correlation_scores.run_simscore import (
+    ALIGNScore,
+)
 
 
 class Alignscore(BaseMetric):
-    def __init__(self, type = "ALIGN"):
-        from vmen.metrics.third_party.T2IScoreScore.src.correlation_scores.run_simscore import ALIGNScore, BlipScorer, CLIPScorer
-
-
+    def __init__(self, type="ALIGN",device=None):
+        print("Loading original implementation of AlignScore")
         super().__init__()
-        if type == "CLIP":
-            self.scorer = CLIPScorer()
-        elif type == "BLIP":
-            self.scorer = BlipScorer()
-        elif type == "ALIGN":
+        if type == "ALIGN":
             self.scorer = ALIGNScore()
         self.scorer.model = self.scorer.model.to("cuda")
+        self.batch_size = 64
 
-    def normalize_scores(self, scores):
-        # Unused method, because scaling like this throws of distributed applied scores
-        scaler = MinMaxScaler()
-        normalized_scores = scaler.fit_transform([[score] for score in scores])
-        normalized_scores = [score[0] for score in normalized_scores]
-        return normalized_scores
+    def __call__(self, caption, path, direct_img=None):
+        if type(caption) == str:
+            return self.scorer.calculate_score(path, caption, direct_img=direct_img)
 
-        
-    def __call__(self, prompt, image_path):
-        if type(prompt) == str:
-            return self.scorer.calculate_score(image_path, prompt)
-        
-        elif type(prompt) == list:
-            scores = [self(c, p) for c, p in tqdm.tqdm(zip(prompt, image_path))]
+        elif type(caption) == list or type(caption) == tuple:
+            scores = [self(c, p, direct_img) for c, p in tqdm.tqdm(zip(caption, path))]
             return scores
-    
+
     def get_state(self):
-        return f"2024"
-    
+        return f"https://github.com/Yushi-Hu/tifa, September 2024"
+
+
 if __name__ == "__main__":
-    os.environ["HF_HOME"] = CACHE_DIR
+    # Instantiate ALIGN
+
+    paths = [
+        "metrics/test_images/body_parts/prompt/body_parts_1___prompt___stable_diffusion_3_5_large_turbo___image4.png",
+        "metrics/test_images/body_parts/prompt/body_parts_1___prompt___gpt4___image1.png",
+        "metrics/test_images/body_parts/contrast/body_parts_1___contrast___gpt4___image1.png",
+        "metrics/test_images/body_parts/contrast/body_parts_1___contrast___gpt4___image4.png",
+    ]
+
+    captions = [
+        "A hand with only its index finger colored red",
+        "A hand with only its index finger colored red",
+        "A hand with only its index finger colored red",
+        "A hand with only its index finger colored red",
+    ]
+
+
+    paths = [
+        "metrics/test_images/cat1.bmp",
+        "metrics/test_images/cat2.bmp",
+        "metrics/test_images/chair.bmp",
+        "metrics/test_images/combined.bmp",
+        "metrics/test_images/tiger.bmp",
+        "metrics/test_images/cat1.bmp",
+        "metrics/test_images/cat2.bmp",
+        "metrics/test_images/chair.bmp",
+        "metrics/test_images/combined.bmp",
+        "metrics/test_images/tiger.bmp",
+        "images/action/prompt/action_1___prompt___FLUX_1_schnell___image1.png",
+        "images/action/prompt/action_1___prompt___FLUX_1_schnell___image1.png"
+    ]
+    captions = [
+        "A cute cat",
+        "Another cute cat",
+        "A stylish chair",
+        "A combined image of a cat, a tiger, and a chair",
+        "A majestic tiger",
+        "An ugly dog",
+        "A rusty old car",
+        "A dilapidated building",
+        "An empty white room",
+        "A boring piece of paper",
+        "A soccer ball bounces.",
+        "A soccer ball sits."
+    ]
+
+    paths = [
+        "images/body_parts/prompt/body_parts_50___prompt___stable_diffusion_3_5_large_turbo___image19.png",
+        "images/body_parts/prompt/body_parts_50___prompt___stable_diffusion_3_5_large_turbo___image19.png",
+        "images/negation/alt_contrast/negation_50___alt_contrast___stable_diffusion_3_5_large_turbo___image9.png",
+        "images/negation/alt_contrast/negation_50___alt_contrast___stable_diffusion_3_5_large_turbo___image9.png"
+    ]
+
+    captions = [
+        "A hand with only its index finger colored yellow.",
+        "A hand with only its middle finger colored yellow.",
+        "An alien creature and a crowd.",
+        "An alien creature and no crowd."
+    ]
 
     metric = Alignscore()
-
-    paths = ['cat1.bmp', 
-             'cat2.bmp', 
-             'chair.bmp', 
-             'combined.bmp', 
-             'tiger.bmp',
-             'cat1.bmp', 
-             'cat2.bmp', 
-             'chair.bmp', 
-             'combined.bmp', 
-             'tiger.bmp']
-    
-    paths = [join_with_root("metrics/test_images/" + p) for p in paths]
-    
-    prompts = ["A cute cat",
-                "Another cute cat",
-                "A stylish chair",
-                "A combined image of a cat, a tiger, and a chair",
-                "A majestic tiger",
-                "An ugly dog",
-                "A rusty old car",
-                "A dilapidated building",
-                "An empty white room",
-                "A boring piece of paper"]
-
-    scores = metric(prompts, paths)
-    print(scores)
-    
+    scores = metric(captions, paths)
+    print("ALIGN", scores)

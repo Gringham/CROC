@@ -1,6 +1,6 @@
 
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.models.med import BertConfig, BertModel, BertLMHeadModel
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.models.blip import create_vit, init_tokenizer, load_checkpoint
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.models.med import BertConfig, BertModel, BertLMHeadModel
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.models.blip import create_vit, init_tokenizer, load_checkpoint
 
 import torch
 from torch import nn
@@ -10,7 +10,7 @@ import numpy as np
 
 class BLIP_VQA(nn.Module):
     def __init__(self,
-                 med_config='CROC/metrics/third_party/T2I_CompBench/BLIPvqa_eval/configs/med_config.json',  # todo
+                 med_config='metrics/third_party/T2I_CompBench/BLIPvqa_eval/configs/med_config.json',  # todo
                  image_size=480,
                  vit='base',
                  vit_grad_ckpt=False,

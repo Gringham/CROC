@@ -1,0 +1,31 @@
+FLUX.1 PROMPTING GUIDE START
+FLUX.1 is an AI model for text-to-image synthesis developed by Black Forest Labs. It generates detailed and diverse images from textual descriptions. This guide details how to write a good prompt.
+
+Pitfalls to Avoid:
+1. Vague or ambiguous prompts: Lack of detail can lead to unpredictable results.
+2. Overloaded prompts: Including too many elements may result in a cluttered or incoherent image.
+3. Conflicting elements: Contradictions in the description can confuse the model.
+4. Ignoring style and context: Mixing incompatible styles or ideas can lead to inconsistency.
+5. Using jargon or niche references: Highly specific terms or references may not be understood by the model.
+
+Prompt Structure:
+A well-crafted prompt includes:
+- Subject: The main focus of the image.
+- Style: The artistic approach or visual aesthetic.
+- Composition: The arrangement of elements within the frame.
+- Lighting: The type and quality of light in the scene.
+- Color palette: The dominant colors or color scheme.
+- Mood or atmosphere: The emotional tone or ambiance.
+- Technical details: Camera settings, perspective, or specific visual techniques.
+- Additional elements: Supporting details or background information.
+
+Examples of good prompts:
+Example 1: A hyperrealistic portrait of a weathered sailor in his 60s, with deep-set blue eyes, a salt-and-pepper beard, and sun-weathered skin. He's wearing a faded blue captain's hat and a thick wool sweater. The background shows a misty harbor at dawn, with fishing boats barely visible in the distance.
+Example 2: Create an image in the style of Vincent van Gogh's 'Starry Night,' but replace the village with a futuristic cityscape. Maintain the swirling, expressive brushstrokes and vibrant color palette of the original, emphasizing deep blues and bright yellows. The city should have tall, glowing skyscrapers that blend seamlessly with the swirling sky.
+Example 3: Capture a street food vendor in Tokyo at night, shot with a wide-angle lens (24mm) at f/1.8. Use a shallow depth of field to focus on the vendor's hands preparing takoyaki, with the glowing street signs and bustling crowd blurred in the background. High ISO setting to capture the ambient light, giving the image a slight grain for a cinematic feel.
+Example 4: Illustrate 'The Last Supper' by Leonardo da Vinci, but reimagine it with robots in a futuristic setting. Maintain the composition and dramatic lighting of the original painting, but replace the apostles with various types of androids and cyborgs. The table should be a long, sleek metal surface with holographic displays. In place of bread and wine, have the robots interfacing with glowing data streams.
+Example 5: Create an image that juxtaposes the delicate beauty of nature with the harsh reality of urban decay. Show a vibrant cherry blossom tree in full bloom growing out of a cracked concrete sidewalk in a dilapidated city alley. The tree should be the focal point, with its pink petals contrasting against the gray, graffiti-covered walls of surrounding buildings. Include a small bird perched on one of the branches to emphasize the theme of resilience.
+Example 6: Depict a cozy, warmly lit bookstore cafe on a rainy evening. The atmosphere should be inviting and nostalgic, with soft yellow lighting from vintage lamps illuminating rows of well-worn books. Show patrons reading in comfortable armchairs, steam rising from their coffee cups. The large front window should reveal a glistening wet street outside, with blurred lights from passing cars. Emphasize the contrast between the warm interior and the cool, rainy exterior.
+Example 7: Create a surreal advertisement poster for a fictional time travel agency. The background should depict a swirling vortex of clock faces and historical landmarks from different eras. In the foreground, place large, bold text that reads 'CHRONO TOURS: YOUR PAST IS OUR FUTURE' in a retro-futuristic font. The text should appear to be partially disintegrating into particles that are being sucked into the time vortex. Include smaller text at the bottom with fictional pricing and the slogan 'History is just a ticket away!'
+Example 8: Illustrate a 'bug’s-eye view' of a picnic in a lush garden. The scene should be from ground level, with towering blades of grass and flowers surrounding a checkered picnic blanket. On the blanket, show a partially eaten sandwich and a spilled glass of lemonade, with ants and other insects approaching the food. The lighting should be soft and dappled, suggesting a sunny day with light filtering through the foliage.
+FLUX.1 PROMPTING GUIDE END

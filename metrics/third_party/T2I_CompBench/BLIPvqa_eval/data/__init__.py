@@ -4,9 +4,9 @@ from torchvision import transforms
 from torchvision.transforms.functional import InterpolationMode
 
 
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.data.vqa_dataset import vqa_dataset
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.data.vqa_dataset import vqa_dataset
 
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.transform.randaugment import RandomAugment
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.transform.randaugment import RandomAugment
 
 def create_dataset(dataset, config, min_scale=0.5):
     

@@ -2,7 +2,7 @@ import re
 import json
 import os
 
-import vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.utils as utils
+import metrics.third_party.T2I_CompBench.BLIPvqa_eval.utils as utils
 
 def pre_caption(caption,max_words=50):
     caption = re.sub(

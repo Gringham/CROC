@@ -2,7 +2,7 @@
 This fodler contains wrapper scripts for the metrics that we reported in our paper:  
 `AlignScore`, `BVQA`, `ClipScore`, `PickScore`, `VQAScore` (+ `GPT4` / +`Blip2Itm`). The respective sources are described in the comments of each metric. There is also a `RandomScore` that returns random scores for every data sample. Each metric implements a class `BaseMetric`.
 
-Some metrics were not pip installable or required small modifications. Therefore, their source code (State January to February 2025) was added in the `third_party` folder.
+Some metrics were not pip installable or required small modifications. Therefore, their source code  was added in the `third_party` folder (VQAScore, AlignScore, BVQA).
 
 Each metric can be executed as follows (with the example of PickScore):  
 ```python
@@ -23,4 +23,4 @@ The setups are as follows:
 
 subject_property --> Property Variation
 
-For distributed execution with Slurm, please view the scripts in CROC_syn. The scripts support chunking parameters.
+For distributed execution with Slurm, please view the scripts in croc_syn. The scripts support chunking parameters.

@@ -5,7 +5,7 @@ from transformers import AutoProcessor, AutoModel
 from PIL import Image
 import torch
 
-from vmen.metrics.BaseMetric import BaseMetric
+from metrics.BaseMetric import BaseMetric
 
 # Wrapper for PickScore: https://github.com/yuvalkirstain/PickScore
 

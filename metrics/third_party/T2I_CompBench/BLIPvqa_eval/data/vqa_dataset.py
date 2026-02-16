@@ -5,7 +5,7 @@ from PIL import Image
 
 import torch
 from torch.utils.data import Dataset
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.data.utils import pre_question
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.data.utils import pre_question
 
 from torchvision.datasets.utils import download_url
 

@@ -10,22 +10,20 @@ from metrics.PickScore import PickScore
 from metrics.Alignscore import Alignscore
 from metrics.BVQA import BVQA
 from metrics.ClipScore import ClipScore
-from metrics.RandomScore import RandomScore
-from CROC.crocscore import CROCScore
+from metrics.CROCScore import CROCScore
 
 
 class MetricCatalogue:
     def __init__(self):
         self.metrics = {
             "BVQA": (BVQA, [], {}),
-            "CLIPScore": (ClipScore, [], {}),
             "CLIPScore_Large": (ClipScore, ["openai/clip-vit-large-patch14"], {}),
             "SSAlign": (Alignscore, ["ALIGN"], {}),
             "PickScore": (PickScore, [], {}),
             "VQAScore": (VQAScore, [], {}),
             "Blip2ITM": (VQAScore, [], {"base": "blip2itm"}),
-            "RandomScore": (RandomScore, [], {}),
-            "PhiScore_R2": (CROCScore, [], {"checkpoint_dir": "./tune_phi/outputs_repr"}),
+            "CROCScore": (CROCScore, [], {"batch_size":4}),
+            "PhiScore": (CROCScore, [], {"model_name": "microsoft/Phi-4-multimodal-instruct", "batch_size":4}),
         }
         self.subset = self.metrics
 
@@ -47,7 +45,6 @@ class MetricCatalogue:
         resume=True,
         suffix="",
         output_file=None,
-        alt_prev_file=None
     ):
         """
         Apply the selected metrics on data_df. The image path column should contain all the paths to the images and the prompt column should contain all respectife prompts. 
@@ -72,51 +69,22 @@ class MetricCatalogue:
         print(f"Data shape: {data_df.shape}")
 
         # If resuming, load existing results and merge with new data.
-        if resume and ((output_file is not None and os.path.exists(output_file)) or (alt_prev_file is not None and os.path.exists(alt_prev_file))):
-            if alt_prev_file is not None and os.path.exists(alt_prev_file):
-                print("Resuming from alt_prev_file", alt_prev_file)
-                try:
-                    existing_df = pd.read_csv(alt_prev_file, sep="\t")
-                except Exception as e:
-                    raise Exception(f"Error reading existing output file: {e}")
-            else:
-                try:
-                    existing_df = pd.read_csv(output_file, sep="\t")
-                except Exception as e:
-                    raise Exception(f"Error reading existing output file: {e}")
+        if resume and ((output_file is not None and os.path.exists(output_file))):
+            try:
+                existing_df = pd.read_csv(output_file, sep="\t")
+            except Exception as e:
+                raise Exception(f"Error reading existing output file: {e}")
 
             for column in existing_df.columns:
                 if column not in data_df.columns:
                     data_df[column] = [None] * len(data_df)
-                                
-            if "img_paths_prompts" in data_df:
-                img_col = "img_paths_prompts"
-            elif "contrast_image" in data_df:
-                img_col = "contrast_image"
-                            
-            # Drop duplicates based on the 'img_paths_prompts' column
-            initial_count = len(data_df)
-            data_df.drop_duplicates(subset=[img_col], inplace=True)
-            
-            duplicates_dropped = initial_count - len(data_df)
-            print(f"Dropped {duplicates_dropped} duplicates for {img_col}")
-            
-            if "img_paths_prompts" in existing_df:
-                img_col2 = "img_paths_prompts"
-            elif "contrast_image" in existing_df:
-                img_col2 = "contrast_image"
-            
-            # Drop duplicates based on the 'img_paths_prompts' column
-            initial_count = len(existing_df)
-            existing_df.drop_duplicates(subset=[img_col2], inplace=True)
-            print(f"Dropped {duplicates_dropped} duplicates for {img_col2}")
 
             # Merge so that every row in data_df is present; existing scores will be carried over.
-            print("Data shape before merge:", data_df[img_col])
+            print("Data shape before merge:", data_df[image_path_column])
 
-            data_df.set_index(img_col, inplace=True)
-            existing_df.set_index(img_col, inplace=True)
-            print("Data shape after merge:", data_df.reset_index()[img_col])
+            data_df.set_index(image_path_column, inplace=True)
+            existing_df.set_index(image_path_column, inplace=True)
+            print("Data shape after merge:", data_df.reset_index()[image_path_column])
 
             data_df.update(existing_df)
             full_results_df = data_df.reset_index()
@@ -130,14 +98,23 @@ class MetricCatalogue:
         device = torch.device("cuda:0")
 
         # Determine which metrics are already complete (all valid rows have non-null scores).
+        # and print how many rows are already computed in the existing dataframe.
+        valid_mask = full_results_df[image_path_column].apply(os.path.exists)
+        num_valid = int(valid_mask.sum())
+
+        # print warning path does not exist for path using valid_mask
+        if num_valid < len(full_results_df):
+            print(f"Warning: {len(full_results_df) - num_valid} rows have invalid image paths and will be skipped. Example invalid paths: {full_results_df.loc[~valid_mask, image_path_column].to_list()[:5]}")
+
         completed_metrics = set()
         for metric_name in metrics_to_apply.keys():
             metric_col = metric_name + suffix
-            print(full_results_df)
-            valid_rows = full_results_df[full_results_df[image_path_column].apply(os.path.exists)]
-            print("Valid rows:", full_results_df[image_path_column][0])
-            if valid_rows[metric_col].notna().all():
+            print(full_results_df[metric_col].to_list()[:10])
+            done = int(full_results_df.loc[valid_mask, metric_col].notna().sum())
+            print(f"[{metric_col}] precomputed rows: {done}/{num_valid}")
+            if num_valid > 0 and done == num_valid:
                 completed_metrics.add(metric_name)
+
         if resume:
             print(f"Resuming from completed metrics: {completed_metrics}")
 

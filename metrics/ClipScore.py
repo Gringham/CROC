@@ -4,7 +4,7 @@ import torch
 import tqdm
 from torch.utils.data import DataLoader, Dataset
 
-from vmen.metrics.BaseMetric import BaseMetric
+from metrics.BaseMetric import BaseMetric
 
 # Wrapper for Torchmetrics ClipScore https://lightning.ai/docs/torchmetrics/stable/multimodal/clip_score.html
 

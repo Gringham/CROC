@@ -1,5 +1,5 @@
-from vmen.metrics.BaseMetric import BaseMetric
-from vmen.project_root import join_with_root
+from metrics.BaseMetric import BaseMetric
+from project_root import join_with_root
 
 # Implementation adapted from https://github.com/Karine-Huang/T2I-CompBench - see third party folder
 
@@ -10,7 +10,7 @@ class BVQA(BaseMetric):
         self.out_dir = "bvqa_intermediate"
         
     def __call__(self, caption, image_path):
-        from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.BLIP_vqa import main
+        from metrics.third_party.T2I_CompBench.BLIPvqa_eval.BLIP_vqa import main
 
         if type(caption) == str:
             return main(image_path, caption, out_dir=self.out_dir).item()

@@ -6,8 +6,8 @@ import spacy
 from tqdm import tqdm
 from tqdm.auto import tqdm
 
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.BLIP.train_vqa_func import VQA_main
-from vmen.project_root import join_with_root
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.BLIP.train_vqa_func import VQA_main
+from project_root import join_with_root
 
 def Create_annotation_for_BLIP(prompts, outpath, np_index=None, dataset_name='default'):
     nlp = spacy.load("en_core_web_sm")

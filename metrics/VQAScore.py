@@ -1,38 +1,47 @@
 from io import BytesIO
+from tqdm import tqdm
+
 from PIL import Image
-from tqdm import tqdm  # <-- Import tqdm for progress display
 
-# Wrappers for vqascore and blip2itm from https://github.com/linzhiqiu/t2v_metrics
-
-from vmen.metrics.BaseMetric import BaseMetric
+from metrics.BaseMetric import BaseMetric
+from metrics.third_party.t2v_metrics import t2v_metrics
 
 class VQAScore(BaseMetric):
     def __init__(self, batch_size=8, base="standard", openai_key=None):
-        from vmen.metrics.third_party.t2v_metrics import t2v_metrics
-
         super().__init__()
         self.device = "cuda"
         self.base = base
         if self.base == "standard":
+            print("Using standard VQAScore model")
             self.model = t2v_metrics.VQAScore(
                 model='clip-flant5-xxl',
-                cache_dir="//.cache"
+                cache_dir="<CACHE_DIR>"
             )
         elif self.base == "gpt4o":
+            print("Using GPT4O model")
             self.model = t2v_metrics.get_score_model(model="gpt-4o", device="cuda", openai_key=openai_key, top_logprobs=20)
         elif self.base == "blip2itm":
+            print("Using BLIP2-ITM model")
             self.model = t2v_metrics.ITMScore(model='blip2-itm') 
-        else:
-            raise ValueError(f"Unknown base model: {self.base}")
             
         self.batch_size = batch_size
 
     def __call__(self, caption, image_path):
         if isinstance(caption, str):
             return self.model(images=[image_path], texts=[caption]).item()
-            
         elif isinstance(caption, list):
             return [self.model(images=[img], texts=[cap]).item() for img, cap in tqdm(zip(image_path, caption))]
+        elif isinstance(caption, tuple):
+            # assert len(caption) == len(image_path)
+            # Cast to list
+            caption = list(caption)
+            # if image paths are a tuple, cast to list
+            if isinstance(image_path, tuple):
+                image_path = list(image_path)
+            assert len(caption) == len(image_path)
+            return [self.model(images=[img], texts=[cap]).item() for img, cap in tqdm(zip(image_path, caption))]
+        else:
+            raise ValueError("Caption must be a string or a list of strings, but got {}: {}".format(type(caption), caption))
 
     def get_state(self):
         return f"VQAScore initialized with device={self.device} and batch_size={self.batch_size}"
@@ -55,11 +64,27 @@ class VQAScore(BaseMetric):
         return converted_image
 
 if __name__ == "__main__":
-    # Instantiate the VQA score metric with a smaller batch size for demonstration.
-    metric = VQAScore(batch_size=1, base="blib2-itm")
-    metric = VQAScore(batch_size=1, base="gpt4o")
-    metric = VQAScore(batch_size=1, base="standard")
+    # Instantiate the CLIP score metric
+    metric = VQAScore(batch_size=4, base="gpt4o", openai_key="<OPENAI_KEY>")
 
+    from PIL import Image
+
+    # Define paths to the original images and the new paths for the converted images
+    paths = [
+        "metrics/test_images/cat1.bmp",
+        "metrics/test_images/cat2.bmp",
+        "metrics/test_images/chair.bmp",
+        "metrics/test_images/combined.bmp",
+        "metrics/test_images/tiger.bmp",
+        "metrics/test_images/cat1.bmp",
+        "metrics/test_images/cat2.bmp",
+        "metrics/test_images/chair.bmp",
+        "metrics/test_images/combined.bmp",
+        "metrics/test_images/tiger.bmp",
+    ]
+
+    paths = [path.replace(".bmp", ".jpg") for path in paths]
+    
     captions = [
         "A cute cat",
         "Another cute cat",
@@ -73,22 +98,8 @@ if __name__ == "__main__":
         "A boring piece of paper",
     ]
 
-    paths = [
-        'vrob/vmen/metrics/test_images/cat1.bmp', 
-        'vrob/vmen/metrics/test_images/cat2.bmp', 
-        'vrob/vmen/metrics/test_images/chair.bmp', 
-        'vrob/vmen/metrics/test_images/combined.bmp', 
-        'vrob/vmen/metrics/test_images/tiger.bmp',
-        'vrob/vmen/metrics/test_images/cat1.bmp', 
-        'vrob/vmen/metrics/test_images/cat2.bmp', 
-        'vrob/vmen/metrics/test_images/chair.bmp', 
-        'vrob/vmen/metrics/test_images/combined.bmp', 
-        'vrob/vmen/metrics/test_images/tiger.bmp'
-    ]
-
     print("\n" + metric.get_state())
-    
 
+    # Combined test
     scores = metric(captions, paths)
     print(scores)
-    

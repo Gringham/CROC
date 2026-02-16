@@ -45,6 +45,7 @@ class BLIP2ITMScoreModel(ScoreModel):
                     image: List[str]) -> torch.Tensor:
         """Load the image(s), and return a tensor (after preprocessing) put on self.device
         """
+
         image = [self.image_loader(x) for x in image]
         image = [self.image_preprocess(image) for image in image]
         assert all(x.shape == image[0].shape for x in image)

@@ -20,12 +20,12 @@ import torch.backends.cudnn as cudnn
 import torch.distributed as dist
 import sys
 sys.path.append("..") 
-import vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.utils as utils
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.models.blip_vqa import blip_vqa
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.utils import cosine_lr_schedule
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.data import create_dataset, create_sampler, create_loader
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.data.vqa_dataset import vqa_collate_fn
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.data.utils import save_result
+import metrics.third_party.T2I_CompBench.BLIPvqa_eval.utils as utils
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.models.blip_vqa import blip_vqa
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.utils import cosine_lr_schedule
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.data import create_dataset, create_sampler, create_loader
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.data.vqa_dataset import vqa_collate_fn
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.data.utils import save_result
 
 
 def train(model, data_loader, optimizer, epoch, device):
@@ -185,7 +185,7 @@ def VQA(evaluate, device, seed, distributed, config, result_dir, output_dir):
 
 def VQA_main(ann_root,output_dir,inference='vqa_prob'): #annotation path, output path
     #torch.cuda.set_device(1)
-    config = 'CROC/metrics/third_party/T2I_CompBench/BLIPvqa_eval/configs/vqa.yaml' #todo config file
+    config = 'metrics/third_party/T2I_CompBench/BLIPvqa_eval/configs/vqa.yaml' #todo config file
     evaluate = True
     device = 'cuda'
     seed = 42

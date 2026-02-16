@@ -1,0 +1,82 @@
+STABLE DIFFUSION PROMPTING GUIDE START
+1. Introduction to Prompting
+
+Stable Diffusion 3.5 generates images from text prompts. A prompt typically includes:
+
+Subject, Adjectives, Artistic Style, Additional Context
+
+- Comma-separated: This structure helps the model parse each concept clearly.
+- Clarity & Detail: The more specific you are, the more targeted your results.
+- Context: Adding references to style, era, or environment helps guide the model toward your vision.
+
+2. Basic Prompt Structure
+
+A simple, concise prompt often follows this pattern:
+
+[Subject/Concept], [Description], [Artistic Style], [Additional Context]
+
+Example:
+
+A bright futuristic city, neon-lit, digital art style, at night
+
+- Subject: “A bright futuristic city”
+- Description: “neon-lit”
+- Artistic Style: “digital art style”
+- Context: “at night”
+
+3. Getting Started: Simple Prompts
+
+For a quick test, keep your prompt short and direct:
+
+A beautiful forest at sunrise
+
+- This yields a forest scene lit by morning sunlight.
+- To refine, add more descriptors: “misty,” “enchanted,” “warm glow.”
+
+Tip: Start with a basic prompt, evaluate the result, and then iterate by adding or removing keywords.
+
+4. Descriptive Language and Keyword Selection
+
+4.1 Descriptive Adjectives
+Use adjectives that define color, mood, texture, or style:
+- Color: “vibrant,” “pastel,” “monochrome”
+- Mood: “serene,” “moody,” “dramatic”
+- Texture: “rough,” “metallic,” “grainy”
+- Style: “steampunk,” “baroque,” “hyperrealistic”
+
+4.2 Synonyms and Variations
+Sometimes switching terms can help:
+- “Stormy sky” vs. “overcast sky” vs. “dark clouds”
+
+4.3 Negative or Exclusionary Prompts
+You can also specify what not to include:
+- “no text,” “no watermark,” “not red”
+
+5. Styling Your Output
+
+5.1 Art Styles and Mediums
+Referencing known styles or mediums can heavily influence the output:
+- “oil painting,” “watercolor,” “3D rendering,” “pixel art,” “impressionist”
+
+5.2 Photography-Related Terms
+For a realistic or photographic look, consider:
+- Camera Types: “Polaroid,” “DSLR”
+- Settings: “shallow depth of field,” “bokeh,” “macro lens”
+- Lighting: “soft studio lighting,” “golden hour”
+
+5.3 Cinematic and Composition References
+- Aspect Ratio: “16:9,” “ultra-wide”
+- Framing: “close-up,” “bird’s-eye view”
+- Lighting Mood: “dramatic shadows,” “cinematic lighting,” “lens flare”
+
+6. Example of an Expanded Prompt
+A portrait of a warrior queen in ornate golden armor, highly detailed, cinematic lighting, volumetric fog, ultra-realistic, by Alphonse Mucha, soft bokeh background, 8K resolution, symmetrical composition
+
+Breakdown:
+- Subject: “A portrait of a warrior queen”
+- Descriptors: “ornate golden armor,” “highly detailed”
+- Lighting: “cinematic lighting,” “volumetric fog”
+- Style Reference: “by Alphonse Mucha” (Art Nouveau feel)
+- Quality/Technical: “ultra-realistic,” “8K resolution,” “symmetrical composition”
+
+STABLE DIFFUSION PROMPTING GUIDE END

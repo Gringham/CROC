@@ -8,8 +8,8 @@
 import warnings
 warnings.filterwarnings("ignore")
 
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.models.vit import VisionTransformer, interpolate_pos_embed
-from vmen.metrics.third_party.T2I_CompBench.BLIPvqa_eval.models.med import BertConfig, BertModel, BertLMHeadModel
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.models.vit import VisionTransformer, interpolate_pos_embed
+from metrics.third_party.T2I_CompBench.BLIPvqa_eval.models.med import BertConfig, BertModel, BertLMHeadModel
 from transformers import BertTokenizer
 
 import torch
@@ -18,7 +18,7 @@ import torch.nn.functional as F
 
 import os
 from urllib.parse import urlparse
-from vmen.metrics.third_party.timm.models.hub import download_cached_file
+from timm.models.hub import download_cached_file
 
 class BLIP_Base(nn.Module):
     def __init__(self,                 

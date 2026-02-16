@@ -1,0 +1,1663 @@
+{
+    "name": "fine_grained_t2i_judgement",
+    "description": "Fine-grained taxonomy of text-to-image generation quality",
+    "classes": [
+        {
+            "name": "Aesthetics",
+            "description": "Overall visual appeal or beauty of the image, factoring in composition, color harmony, stylistic choices, and general impression.",
+            "classes": [
+                {
+                    "name": "Composition",
+                    "description": "Arrangement and balance of elements within the image, including framing and focal points."
+                },
+                {
+                    "name": "Color Harmony",
+                    "description": "Overall compatibility and visual balance of colors, such as complementary or analogous color schemes."
+                },
+                {
+                    "name": "Artistic Impact",
+                    "description": "Emotional or conceptual resonance of the image, reflecting the effectiveness of aesthetic choices."
+                }
+            ]
+        },
+        {
+            "name": "Textual Properties",
+            "description": "Characteristics and quality of the prompt or textual input used to generate the image.",
+            "classes": [
+                {
+                    "name": "Text Style",
+                    "description": "The manner or tone in which the textual prompt is written, influencing the creative direction of the image.",
+                    "classes": [
+                        {
+                            "name": "Length",
+                            "description": "How long or short the textual prompt is, including word count and level of descriptive detail.",
+                            "classes": [
+                                {
+                                    "name": "Brief",
+                                    "description": "Extremely concise prompt using minimal words."
+                                },
+                                {
+                                    "name": "Moderate",
+                                    "description": "Prompt of medium length that provides sufficient context without being overly verbose."
+                                },
+                                {
+                                    "name": "Extended",
+                                    "description": "Long prompt with detailed descriptions and potentially multiple sentences."
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Complexity",
+                            "description": "The degree of intricacy or sophistication in the textual prompt, including vocabulary, structure, and conceptual nuance.",
+                            "classes": [
+                                {
+                                    "name": "Simple",
+                                    "description": "Straightforward language with no complex sentence structures or advanced terminology."
+                                },
+                                {
+                                    "name": "Intermediate",
+                                    "description": "Moderate use of descriptive language or specialized terms, striking a balance between clarity and depth."
+                                },
+                                {
+                                    "name": "Advanced",
+                                    "description": "Contains sophisticated or technical language, nuanced instructions, or layered concepts."
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Error Types",
+                    "description": "Categories of textual mistakes in the prompt that may affect image generation.",
+                    "classes": [
+                        {
+                            "name": "Omission",
+                            "description": "Randomly dropping out n% of words in the prompt.",
+                            "method_name": "omission"
+                        },
+                        {
+                            "name": "Negation",
+                            "description": "Randomly negate one or more verbs in the prompt."
+                        },
+                        {
+                            "name": "Pronoun Error",
+                            "description": "Replace all pronouns in the sentence without causing syntax errors. Semantic errors are allowed."
+                        },
+                        {
+                            "name": "Fluency Errors",
+                            "description": "Errors that impact the overall readability of the prompt.",
+                            "classes": [
+                                {
+                                    "name": "Word Jumble",
+                                    "description": "Misspellings or garbled text that make the intended meaning unclear or confusing."
+                                },
+                                {
+                                    "name": "Spelling Errors",
+                                    "description": "Incorrectly spelled words that may affect the prompt's readability or comprehension."
+                                },
+                                {
+                                    "name": "Subject-verb disagreement",
+                                    "description": "Mismatch between the subject and verb in the sentence."
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Visual Properties",
+            "description": "Characteristics and attributes of the generated image’s content and appearance.",
+            "classes": [
+                {
+                    "name": "Domain",
+                    "description": "High-level medium or approach used in the image (e.g., photography, painting, 3D rendering, anime).",
+                    "classes": [
+                        {
+                            "name": "Photography",
+                            "description": "Images that appear as if captured by a camera in real-world lighting and conditions."
+                        },
+                        {
+                            "name": "Illustration",
+                            "description": "Flat or stylized artwork typically associated with hand-drawn or digital drawing aesthetics."
+                        },
+                        {
+                            "name": "3D Rendering",
+                            "description": "Computer-generated graphics that simulate three-dimensional objects and spaces."
+                        },
+                        {
+                            "name": "Anime",
+                            "description": "Images adopting stylized, often character-centric art typical of animation or manga."
+                        },
+                        {
+                            "name": "Mixed Media",
+                            "description": "Hybrid or collage-style images, possibly blending real and illustrated elements."
+                        },
+                        {
+                            "name": "Painting",
+                            "description": "Artwork created using traditional or digital painting techniques."
+                        }
+                    ]
+                },
+                {
+                    "name": "Subject Matter",
+                    "description": "Major categories or types of subjects appearing in the image (e.g., nature, people, architecture).",
+                    "classes": [
+                        {
+                          "name": "Nature",
+                          "description": "Outdoor or wilderness scenes that highlight natural elements such as mountains, forests, or oceans.",
+                          "classes": [
+                            {
+                              "name": "Landscapes",
+                              "description": "Vast outdoor scenes showcasing natural features like hills, valleys, rivers, and skies.",
+                              "entities": [
+                                {
+                                  "name": "Mountain",
+                                  "description": "A large, towering landform that has steep sides and a peak at the top.",
+                                  "parts": ["rock", "snowcap", "ridge", "base", "peak"]
+                                },
+                                {
+                                  "name": "Valley",
+                                  "description": "A low-lying area between mountains or hills, often appearing as a long stretch of land.",
+                                  "parts": ["stream", "slope", "meadow", "cliff", "floor"]
+                                },
+                                {
+                                  "name": "River",
+                                  "description": "A flowing body of water that usually runs along a channel with banks on each side.",
+                                  "parts": ["current", "bank", "source", "bed", "delta"]
+                                },
+                                {
+                                  "name": "Cloud",
+                                  "description": "A visible mass of condensed water vapor that often looks soft or fluffy.",
+                                  "parts": ["puff", "edge", "shadow", "mist", "fluff"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Flora",
+                              "description": "Plants and vegetation, including trees, flowers, and grasses.",
+                              "entities": [
+                                {
+                                  "name": "Tree",
+                                  "description": "A tall plant with a thick trunk made of wood and branches extending outward with leaves.",
+                                  "parts": ["branch", "leaf", "bark", "root", "twig"]
+                                },
+                                {
+                                  "name": "Flower",
+                                  "description": "A colorful, often delicate plant structure with petals that grow around a central part.",
+                                  "parts": ["petal", "stamen", "pistil", "sepal", "stem"]
+                                },
+                                {
+                                  "name": "Bush",
+                                  "description": "A small to medium-sized plant with multiple branches that usually form dense foliage.",
+                                  "parts": ["leaf", "stem", "twig", "brier", "bud"]
+                                },
+                                {
+                                  "name": "Grass",
+                                  "description": "A short, thin green plant that grows in clusters of narrow leaves.",
+                                  "parts": ["blade", "tip", "node"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Fauna",
+                              "description": "Animals and wildlife, ranging from insects to large mammals.",
+                              "entities": [
+                                {
+                                  "name": "Deer",
+                                  "description": "A four-legged mammal with a slender body, thin legs, and branched antlers on the males.",
+                                  "parts": ["antler", "hoof", "fur", "nose", "eye"]
+                                },
+                                {
+                                  "name": "Eagle",
+                                  "description": "A large bird of prey with a sharp, curved beak, strong talons, and broad wings.",
+                                  "parts": ["beak", "feather", "talon", "wing", "eye"]
+                                },
+                                {
+                                  "name": "Butterfly",
+                                  "description": "An insect with two pairs of often colorful wings that fold above its body when resting.",
+                                  "parts": ["wing", "antenna", "leg", "proboscis", "scale"]
+                                },
+                                {
+                                  "name": "Fox",
+                                  "description": "A small to medium-sized canine with a pointed snout and a bushy tail.",
+                                  "parts": ["tail", "ear", "paw", "whisker", "fur"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Weather Phenomena",
+                              "description": "Visual representations of weather conditions such as rain, snow, storms, or sunshine.",
+                              "entities": [
+                                {
+                                  "name": "Raindrop",
+                                  "description": "A small droplet of water that forms in the atmosphere and falls to the ground.",
+                                  "parts": ["surface", "nucleus", "reflection", "splash"]
+                                },
+                                {
+                                  "name": "Snowflake",
+                                  "description": "A tiny crystal of frozen water, often with a unique and intricate shape.",
+                                  "parts": ["arm", "crystal", "branch", "pattern"]
+                                },
+                                {
+                                  "name": "Lightning Bolt",
+                                  "description": "A bright flash of electricity that appears as a jagged streak of light in the sky.",
+                                  "parts": ["branch", "strike", "spark", "fork"]
+                                },
+                                {
+                                  "name": "Sunbeam",
+                                  "description": "A ray of light from the sun that appears as a bright, narrow beam.",
+                                  "parts": ["ray", "glow", "core", "edge"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Underwater",
+                              "description": "Scenes depicting aquatic environments, marine life, and underwater landscapes.",
+                              "entities": [
+                                {
+                                  "name": "Fish",
+                                  "description": "A water-dwelling animal with fins on its body and gills on its sides for breathing.",
+                                  "parts": ["fin", "scale", "gill", "eye", "tail"]
+                                },
+                                {
+                                  "name": "Coral",
+                                  "description": "A marine organism that forms branching or rounded structures, often in vibrant colors.",
+                                  "parts": ["polyp", "branch", "skeleton", "spur"]
+                                },
+                                {
+                                  "name": "Sea Turtle",
+                                  "description": "A large reptile with a protective shell covering its back and flippers for swimming.",
+                                  "parts": ["flipper", "shell", "beak", "scale", "eye"]
+                                },
+                                {
+                                  "name": "Seaweed",
+                                  "description": "A marine plant-like organism that has long, thin fronds and grows in water.",
+                                  "parts": ["frond", "blade", "holdfast", "stipe"]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "People",
+                          "description": "Images primarily depicting one or more human subjects.",
+                          "classes": [
+                            {
+                              "name": "Portraits",
+                              "description": "Close-up images focusing on individual faces or expressions.",
+                              "entities": [
+                                {
+                                  "name": "Adult Human",
+                                  "description": "A person with one head, two arms attached at the shoulders, and two legs extending downward.",
+                                  "parts": ["index finger", "nose hair", "ear lobe", "pupil", "eyelash"]
+                                },
+                                {
+                                  "name": "Child",
+                                  "description": "A smaller, younger human with similar features, often appearing with a smaller frame.",
+                                  "parts": ["small toe", "cheek", "finger", "hair strand", "eyebrow"]
+                                },
+                                {
+                                  "name": "Elderly Person",
+                                  "description": "A mature human with visible signs of age, such as wrinkles, but the same basic body layout.",
+                                  "parts": ["wrinkle", "gray hair", "callus", "nail", "frown line"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Groups",
+                              "description": "Multiple people interacting or posed together within the scene.",
+                              "entities": [
+                                {
+                                  "name": "Friends",
+                                  "description": "A set of human figures, each having one head, two arms, and two legs, appearing in varying ages or appearances.",
+                                  "parts": ["arm", "smile", "handshake", "gesture", "laugh line"]
+                                },
+                                {
+                                  "name": "Family Members",
+                                  "description": "Related humans of different ages and sizes, each with the basic human form of a head, torso, arms, and legs.",
+                                  "parts": ["shared glance", "hand", "finger", "smile", "ear"]
+                                },
+                                {
+                                  "name": "Crowd",
+                                  "description": "A larger collection of humans with the same general structure, showing variety in appearance.",
+                                  "parts": ["face", "hand", "foot", "hair strand", "smile"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Activities",
+                              "description": "People engaged in various actions or tasks, such as sports, work, or leisure.",
+                              "entities": [
+                                {
+                                  "name": "Athlete",
+                                  "description": "A human with a muscular or fit form, one head, two arms, and two legs often wearing sports attire.",
+                                  "parts": ["muscle fiber", "sweat droplet", "calf", "knee cap", "jersey button"]
+                                },
+                                {
+                                  "name": "Worker",
+                                  "description": "A human dressed in work clothes or uniforms, with a body layout of a head, torso, arms, and legs.",
+                                  "parts": ["tool grip", "finger", "boot sole", "wristwatch", "patch"]
+                                },
+                                {
+                                  "name": "Hobbyist",
+                                  "description": "A person with typical human features, often holding or using items related to a pastime.",
+                                  "parts": ["pen tip", "glove", "camera lens", "button", "zipper"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Cultural",
+                              "description": "Depictions reflecting specific cultures, traditions, or ethnic backgrounds.",
+                              "entities": [
+                                {
+                                  "name": "Traditional Dancer",
+                                  "description": "A human in culturally specific attire, with the same basic body structure of a head, arms, and legs.",
+                                  "parts": ["sleeve cuff", "ankle bracelet", "scarf fringe", "eardrop", "eye makeup"]
+                                },
+                                {
+                                  "name": "Musician",
+                                  "description": "A human figure possibly holding or playing a musical instrument, with one head, two arms, and two legs.",
+                                  "parts": ["string", "drumhead", "reed", "tuning peg", "fingertip"]
+                                },
+                                {
+                                  "name": "Elder in Traditional Clothing",
+                                  "description": "An older human wearing culturally distinct garments, maintaining the human form of head and limbs.",
+                                  "parts": ["embroidered patch", "hem", "collar", "cuff", "buckle"]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Animals",
+                          "description": "Images focused on animals—wild or domestic.",
+                          "classes": [
+                            {
+                              "name": "Wild Animals",
+                              "description": "Non-domesticated species typically found in natural habitats.",
+                              "entities": [
+                                {
+                                  "name": "Lion",
+                                  "description": "A large, four-legged carnivore with a muscular body and a mane around its head (in males).",
+                                  "parts": ["mane tuft", "claw", "whisker", "paw pad", "tail tip"]
+                                },
+                                {
+                                  "name": "Elephant",
+                                  "description": "A massive, four-legged mammal with thick, grey skin, a long trunk, and two tusks.",
+                                  "parts": ["tusk", "ear flap", "trunk tip", "foot pad", "skin wrinkle"]
+                                },
+                                {
+                                  "name": "Giraffe",
+                                  "description": "A tall, spotted animal with four legs, a very long neck, and small horns on its head.",
+                                  "parts": ["ossicone", "tongue tip", "hoof", "spot", "ear"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Domestic Animals",
+                              "description": "Animals that are commonly kept as pets or farm animals.",
+                              "entities": [
+                                {
+                                  "name": "Dog",
+                                  "description": "A four-legged pet with fur, a tail, and ears that can be floppy or upright.",
+                                  "parts": ["paw", "tail wag", "whisker", "ear tip", "snout"]
+                                },
+                                {
+                                  "name": "Cat",
+                                  "description": "A small, agile pet with soft fur, pointed ears, and a long, flexible tail.",
+                                  "parts": ["whisker", "paw", "ear tuft", "claw", "tail tip"]
+                                },
+                                {
+                                  "name": "Cow",
+                                  "description": "A large farm animal with four legs, a broad body, and two horns on its head.",
+                                  "parts": ["udder", "hoof", "tail switch", "ear", "spot"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Mythical Creatures",
+                              "description": "Fantastical or legendary animals from folklore and mythology.",
+                              "entities": [
+                                {
+                                  "name": "Dragon",
+                                  "description": "A reptile-like creature often depicted with scales, wings, and the ability to breathe fire.",
+                                  "parts": ["scale", "claw", "wing membrane", "tail spike", "fire breath"]
+                                },
+                                {
+                                  "name": "Phoenix",
+                                  "description": "A mythical bird with bright feathers and a crest, often associated with flames or rebirth.",
+                                  "parts": ["feather", "beak", "wing tip", "ash remnant", "crest"]
+                                },
+                                {
+                                  "name": "Unicorn",
+                                  "description": "A horse-like creature with a single spiral horn protruding from its forehead.",
+                                  "parts": ["horn spiral", "mane strand", "hoof", "ear", "tail tuft"]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Architecture",
+                          "description": "Scenes emphasizing buildings, cities, or other man-made structures.",
+                          "classes": [
+                            {
+                              "name": "Residential Buildings",
+                              "description": "Houses, apartments, and other living spaces.",
+                              "entities": [
+                                {
+                                  "name": "House",
+                                  "description": "A structure with walls, a roof, and windows, often featuring a simple rectangular shape.",
+                                  "parts": ["door knob", "window pane", "roof shingle", "chimney brick", "porch step"]
+                                },
+                                {
+                                  "name": "Cottage",
+                                  "description": "A small dwelling usually made of wood or stone, with a cozy appearance and a pitched roof.",
+                                  "parts": ["shingle", "window frame", "door handle", "fence post", "chimney"]
+                                },
+                                {
+                                  "name": "Apartment Block",
+                                  "description": "A tall, multi-level building divided into separate living units with rows of windows.",
+                                  "parts": ["balcony railing", "window", "door", "staircase step", "roof tile"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Commercial Buildings",
+                              "description": "Structures like offices, shops, and skyscrapers.",
+                              "entities": [
+                                {
+                                  "name": "Office Tower",
+                                  "description": "A large, tall structure with many floors and a facade made of glass or concrete.",
+                                  "parts": ["glass panel", "door", "elevator button", "window frame", "corner"]
+                                },
+                                {
+                                  "name": "Shopping Mall",
+                                  "description": "A wide complex containing multiple shops, usually with a main entrance and corridors inside.",
+                                  "parts": ["escalator step", "storefront", "light fixture", "ceiling tile", "sign"]
+                                },
+                                {
+                                  "name": "Skyscraper",
+                                  "description": "A very tall, multi-story building often made of steel and glass that reaches high into the sky.",
+                                  "parts": ["window", "antenna", "beam", "corner", "glass shard"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Historical Landmarks",
+                              "description": "Iconic or culturally significant buildings and monuments.",
+                              "entities": [
+                                {
+                                  "name": "Castle",
+                                  "description": "A large, fortified building with thick walls, towers, and battlements.",
+                                  "parts": ["turret", "moat stone", "drawbridge plank", "flag pole", "arch"]
+                                },
+                                {
+                                  "name": "Temple",
+                                  "description": "A place of worship, often featuring columns, ornate detailing, and symbolic decorations.",
+                                  "parts": ["column capital", "pediment", "frieze", "statue base", "altar piece"]
+                                },
+                                {
+                                  "name": "Monument",
+                                  "description": "A structure erected to commemorate a person or event, usually made of stone or metal.",
+                                  "parts": ["inscription", "plaque", "corner", "base", "arch"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Bridges and Infrastructure",
+                              "description": "Man-made structures connecting different areas, such as bridges, roads, and railways.",
+                              "entities": [
+                                {
+                                  "name": "Bridge",
+                                  "description": "A structure built to span a gap or obstacle, often with supports below or arches.",
+                                  "parts": ["arch", "cable", "pier", "span", "deck"]
+                                },
+                                {
+                                  "name": "Road",
+                                  "description": "A paved or cleared path designed for vehicles or foot traffic, usually long and flat.",
+                                  "parts": ["pavement", "lane", "shoulder", "median", "curb"]
+                                },
+                                {
+                                  "name": "Railway Tracks",
+                                  "description": "Parallel steel rails laid on wooden or concrete sleepers for trains to travel on.",
+                                  "parts": ["rail", "sleeper", "ballast", "spike", "tie"]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Objects and Still Life",
+                          "description": "Arrangements or depictions of inanimate objects (e.g., fruits, flowers, household items).",
+                          "classes": [
+                            {
+                              "name": "Household Items",
+                              "description": "Common objects found in homes, such as furniture, appliances, and decor.",
+                              "entities": [
+                                {
+                                  "name": "Chair",
+                                  "description": "A piece of furniture with a seat, a backrest, and often four legs.",
+                                  "parts": ["leg", "backrest", "seat cushion", "armrest", "joint"]
+                                },
+                                {
+                                  "name": "Lamp",
+                                  "description": "A device that holds a light bulb, typically with a base and a shade.",
+                                  "parts": ["bulb", "base", "shade", "switch", "stem"]
+                                },
+                                {
+                                  "name": "Couch",
+                                  "description": "A padded piece of furniture designed for seating multiple people, usually with armrests.",
+                                  "parts": ["cushion", "armrest", "frame", "pillow", "leg"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Food and Beverages",
+                              "description": "Edible items and drinks, often arranged aesthetically.",
+                              "entities": [
+                                {
+                                  "name": "Fruit Bowl",
+                                  "description": "A container that holds various fresh fruits, each with distinct shapes and colors.",
+                                  "parts": ["rim", "handle", "pattern", "glaze", "base"]
+                                },
+                                {
+                                  "name": "Cup of Coffee",
+                                  "description": "A small container with a handle, filled with a dark, aromatic hot beverage.",
+                                  "parts": ["handle", "saucer", "steam", "lip", "base"]
+                                },
+                                {
+                                  "name": "Loaf of Bread",
+                                  "description": "A solid baked product made from dough, typically shaped into a rounded or rectangular form.",
+                                  "parts": ["crust", "crumb", "slice edge", "dough", "pore"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Artistic Arrangements",
+                              "description": "Carefully composed displays of objects for artistic effect.",
+                              "entities": [
+                                {
+                                  "name": "Vase of Flowers",
+                                  "description": "A tall container holding a collection of blooms with stems and leaves.",
+                                  "parts": ["stem", "petal", "leaf", "vase curve", "opening"]
+                                },
+                                {
+                                  "name": "Decorative Bowl",
+                                  "description": "A shallow, often ornate dish used to hold small items or purely for display.",
+                                  "parts": ["rim", "base", "glaze", "curve", "pattern"]
+                                },
+                                {
+                                  "name": "Sculpture",
+                                  "description": "A three-dimensional piece of art created from materials like stone, metal, or clay.",
+                                  "parts": ["edge", "detail", "base", "surface", "curve"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Tools and Instruments",
+                              "description": "Various tools, machinery, or musical instruments depicted in the image.",
+                              "entities": [
+                                {
+                                  "name": "Hammer",
+                                  "description": "A handheld tool with a weighted head fixed to a handle for striking surfaces.",
+                                  "parts": ["head", "handle", "claw", "striking face", "grip"]
+                                },
+                                {
+                                  "name": "Guitar",
+                                  "description": "A stringed musical instrument with a long neck and a hollow or solid body.",
+                                  "parts": ["string", "fret", "body", "neck", "bridge"]
+                                },
+                                {
+                                  "name": "Camera",
+                                  "description": "A device with a lens, a body, and buttons, used to capture photographs or videos.",
+                                  "parts": ["lens", "shutter", "sensor", "button", "flash"]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Fantasy/Sci-Fi",
+                          "description": "Imagery featuring mythical or futuristic elements, creatures, or environments.",
+                          "classes": [
+                            {
+                              "name": "Mythical Worlds",
+                              "description": "Imagined realms inspired by mythology and fantasy literature.",
+                              "entities": [
+                                {
+                                  "name": "Enchanted Forest",
+                                  "description": "A woodland setting with unusually vibrant or glowing plants and mystical ambiance.",
+                                  "parts": ["moss", "glow", "branch", "mushroom", "leaf"]
+                                },
+                                {
+                                  "name": "Floating Island",
+                                  "description": "A piece of land that appears to hover in the air without visible support.",
+                                  "parts": ["edge", "mist", "rock", "aura", "ledge"]
+                                },
+                                {
+                                  "name": "Crystal Cave",
+                                  "description": "A cavern filled with glimmering or translucent rock formations that catch the light.",
+                                  "parts": ["crystal", "stalactite", "stalagmite", "glitter", "cave wall"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Futuristic Cities",
+                              "description": "Advanced urban environments with high-tech architecture and infrastructure.",
+                              "entities": [
+                                {
+                                  "name": "Neon Tower",
+                                  "description": "A tall building featuring bright, illuminated panels or glowing lines along its exterior.",
+                                  "parts": ["panel", "light strip", "antenna", "window", "spire"]
+                                },
+                                {
+                                  "name": "Hover Car",
+                                  "description": "A vehicle-like structure that appears to float above the ground, with a sleek, streamlined shape.",
+                                  "parts": ["hover pad", "wing", "window", "engine", "light"]
+                                },
+                                {
+                                  "name": "Robot Citizen",
+                                  "description": "A mechanical being shaped somewhat like a human, with a metallic body and jointed limbs.",
+                                  "parts": ["circuit", "sensor", "joint", "panel", "wire"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Space and Celestial",
+                              "description": "Outer space scenes, including stars, planets, and spacecraft.",
+                              "entities": [
+                                {
+                                  "name": "Alien Creature",
+                                  "description": "A fictional being with unusual shapes, limbs, or features not found in typical Earth animals.",
+                                  "parts": ["tentacle", "eye", "scale", "claw", "skin"]
+                                },
+                                {
+                                  "name": "Starship",
+                                  "description": "A large vehicle designed for travel through the vacuum of space, often metallic and sleek.",
+                                  "parts": ["hull", "engine", "wing", "cockpit", "antenna"]
+                                },
+                                {
+                                  "name": "Asteroid",
+                                  "description": "A rocky or metallic object floating through space, usually irregular in shape.",
+                                  "parts": ["crater", "rock", "dust", "vein", "boulder"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Magic and Sorcery",
+                              "description": "Elements involving magical practices, spells, or enchanted objects.",
+                              "entities": [
+                                {
+                                  "name": "Wizard",
+                                  "description": "A human-like figure known for casting spells, often seen with robes and a staff.",
+                                  "parts": ["robe edge", "hat brim", "staff tip", "beard", "glove"]
+                                },
+                                {
+                                  "name": "Magic Wand",
+                                  "description": "A thin, rod-like object used as a focus for magical energies or spells.",
+                                  "parts": ["core", "handle", "spark", "gem", "engraving"]
+                                },
+                                {
+                                  "name": "Enchanted Book",
+                                  "description": "A volume filled with mystical symbols, often glowing or shimmering on its cover.",
+                                  "parts": ["page", "cover", "binding", "seal", "script"]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Vehicles",
+                          "description": "Depictions of various modes of transportation and machinery.",
+                          "classes": [
+                            {
+                              "name": "Land Vehicles",
+                              "description": "Cars, motorcycles, bicycles, and other vehicles that travel on land.",
+                              "entities": [
+                                {
+                                  "name": "Car",
+                                  "description": "A four-wheeled motor vehicle with a metal body and seats for passengers.",
+                                  "parts": ["wheel", "door", "headlight", "bumper", "grille"]
+                                },
+                                {
+                                  "name": "Motorcycle",
+                                  "description": "A two-wheeled motorized vehicle with a saddle seat and handlebars.",
+                                  "parts": ["tire", "handlebar", "exhaust", "seat", "engine"]
+                                },
+                                {
+                                  "name": "Bicycle",
+                                  "description": "A two-wheeled vehicle powered by pedals attached to a chain and gears.",
+                                  "parts": ["pedal", "chain", "spoke", "seat", "handlebar"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Air Vehicles",
+                              "description": "Planes, helicopters, drones, and other airborne transportation.",
+                              "entities": [
+                                {
+                                  "name": "Airplane",
+                                  "description": "A powered flying vehicle with fixed wings and engines, typically carrying passengers or cargo.",
+                                  "parts": ["wing", "fuselage", "tail", "engine", "cockpit"]
+                                },
+                                {
+                                  "name": "Helicopter",
+                                  "description": "An aircraft with rotating blades on top that allow it to take off and land vertically.",
+                                  "parts": ["rotor", "blade", "skid", "tail rotor", "cabin"]
+                                },
+                                {
+                                  "name": "Drone",
+                                  "description": "A small, unmanned aircraft with multiple rotors and a compact body.",
+                                  "parts": ["rotor", "camera", "frame", "battery", "propeller"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Water Vehicles",
+                              "description": "Boats, ships, submarines, and other vessels that navigate water.",
+                              "entities": [
+                                {
+                                  "name": "Boat",
+                                  "description": "A small vessel designed to float on water, typically with a hull and seating area.",
+                                  "parts": ["hull", "deck", "mast", "oar", "keel"]
+                                },
+                                {
+                                  "name": "Ship",
+                                  "description": "A large watercraft with a strong hull and multiple decks, used for travel or transport.",
+                                  "parts": ["deck", "mast", "bow", "anchor", "sail"]
+                                },
+                                {
+                                  "name": "Submarine",
+                                  "description": "A submerged vessel designed for underwater travel, usually with a tubular body and fins.",
+                                  "parts": ["hull", "periscope", "propeller", "dive plane", "conning tower"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Futuristic Vehicles",
+                              "description": "Imagined or advanced transportation methods not commonly seen in the real world.",
+                              "entities": [
+                                {
+                                  "name": "Hoverboard",
+                                  "description": "A small platform that hovers above the ground, often depicted with futuristic styling.",
+                                  "parts": ["pad", "deck", "edge", "strip", "sensor"]
+                                },
+                                {
+                                  "name": "Flying Car",
+                                  "description": "A hybrid vehicle that combines the features of a car and an aircraft, allowing it to soar.",
+                                  "parts": ["wing", "jet", "window", "engine", "landing gear"]
+                                },
+                                {
+                                  "name": "Monorail Pod",
+                                  "description": "A sleek, single-track vehicle with a rounded exterior, typically gliding on an elevated rail.",
+                                  "parts": ["pod", "door", "window", "track interface", "wheel"]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Technology",
+                          "description": "Images showcasing technological devices, gadgets, and innovations.",
+                          "classes": [
+                            {
+                              "name": "Electronic Devices",
+                              "description": "Gadgets like smartphones, laptops, and tablets.",
+                              "entities": [
+                                {
+                                  "name": "Smartphone",
+                                  "description": "A handheld device with a touchscreen and a rectangular body, used for calls and apps.",
+                                  "parts": ["screen", "button", "camera", "port", "case"]
+                                },
+                                {
+                                  "name": "Laptop",
+                                  "description": "A portable computer with a hinged screen and built-in keyboard.",
+                                  "parts": ["keyboard", "screen", "trackpad", "port", "hinge"]
+                                },
+                                {
+                                  "name": "Tablet",
+                                  "description": "A thin, flat device with a touchscreen that typically has no physical keyboard.",
+                                  "parts": ["screen", "frame", "button", "camera", "battery"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Robotics",
+                              "description": "Mechanical robots and automated machinery.",
+                              "entities": [
+                                {
+                                  "name": "Humanoid Robot",
+                                  "description": "A machine shaped like a human, with a head, torso, and limbs made of metal or plastic.",
+                                  "parts": ["joint", "sensor", "panel", "circuit", "limb"]
+                                },
+                                {
+                                  "name": "Industrial Robot Arm",
+                                  "description": "A mechanical limb with multiple joints, often used for assembly or manufacturing tasks.",
+                                  "parts": ["joint", "claw", "cable", "motor", "sensor"]
+                                },
+                                {
+                                  "name": "Robotic Vacuum",
+                                  "description": "A small, disk-shaped device that moves around on wheels, cleaning floors automatically.",
+                                  "parts": ["brush", "wheel", "sensor", "filter", "battery"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Artificial Intelligence",
+                              "description": "Visual representations of AI concepts, such as virtual assistants or neural networks.",
+                              "entities": [
+                                {
+                                  "name": "AI Avatar",
+                                  "description": "A digital figure or face displayed on a screen, often representing an intelligent system.",
+                                  "parts": ["pixel", "icon", "shader", "glow", "face"]
+                                },
+                                {
+                                  "name": "Neural Network Diagram",
+                                  "description": "An illustration of interconnected nodes and lines, representing AI decision-making paths.",
+                                  "parts": ["node", "edge", "layer", "connection", "signal"]
+                                },
+                                {
+                                  "name": "Chatbot Interface",
+                                  "description": "A minimalistic display with text bubbles, indicating automated conversation or messaging.",
+                                  "parts": ["bubble", "text", "cursor", "icon", "border"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Wearable Technology",
+                              "description": "Devices worn on the body, like smartwatches and VR headsets.",
+                              "entities": [
+                                {
+                                  "name": "Smartwatch",
+                                  "description": "A small, rectangular or circular device worn on the wrist, displaying digital information.",
+                                  "parts": ["dial", "strap", "screen", "button", "crown"]
+                                },
+                                {
+                                  "name": "VR Headset",
+                                  "description": "A goggle-like device that covers the eyes, often with straps and internal displays for immersive visuals.",
+                                  "parts": ["lens", "strap", "padding", "sensor", "screen"]
+                                },
+                                {
+                                  "name": "Fitness Tracker",
+                                  "description": "A slim wristband or watch-like device that monitors physical activities and health metrics.",
+                                  "parts": ["band", "sensor", "screen", "clip", "battery"]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Abstract",
+                          "description": "Non-representational imagery focusing on shapes, colors, and forms without depicting specific objects.",
+                          "classes": [
+                            {
+                              "name": "Geometric Abstraction",
+                              "description": "Use of geometric shapes and patterns in a non-representational manner.",
+                              "entities": [
+                                {
+                                  "name": "Circle",
+                                  "description": "A simple curved shape with a continuous line forming a round outline.",
+                                  "parts": ["curve", "arc", "center", "edge", "radius"]
+                                },
+                                {
+                                  "name": "Square",
+                                  "description": "A shape with four equal straight sides and four right angles.",
+                                  "parts": ["side", "corner", "angle", "edge", "face"]
+                                },
+                                {
+                                  "name": "Triangle",
+                                  "description": "A shape with three straight edges and three corners.",
+                                  "parts": ["vertex", "side", "angle", "base", "apex"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Color Fields",
+                              "description": "Large expanses of single colors or gradients without distinct forms.",
+                              "entities": [
+                                {
+                                  "name": "Solid Block of Color",
+                                  "description": "A broad, even area of a single hue with no visible patterns or textures.",
+                                  "parts": ["shade", "hue", "edge", "center", "gloss"]
+                                },
+                                {
+                                  "name": "Gradient Swatch",
+                                  "description": "A smooth transition from one color to another, often blending gradually.",
+                                  "parts": ["transition", "blend", "edge", "fade", "curve"]
+                                },
+                                {
+                                  "name": "Subtle Texture Overlay",
+                                  "description": "A faint pattern or grain that adds slight variation to a primarily uniform color.",
+                                  "parts": ["grain", "pattern", "dot", "stain", "blend"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Conceptual Abstraction",
+                              "description": "Images representing abstract ideas or concepts through symbolic means.",
+                              "entities": [
+                                {
+                                  "name": "Symbolic Shape",
+                                  "description": "A simple outline suggesting an idea or concept, such as a circle or spiral.",
+                                  "parts": ["outline", "curve", "line", "point", "form"]
+                                },
+                                {
+                                  "name": "Minimalist Line Art",
+                                  "description": "A few drawn lines or curves that imply a broader concept or theme.",
+                                  "parts": ["stroke", "curve", "dot", "edge", "mark"]
+                                },
+                                {
+                                  "name": "Abstract Symbol",
+                                  "description": "A stylized image with no direct representation, often open to interpretation.",
+                                  "parts": ["icon", "mark", "dash", "dot", "curve"]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Events",
+                          "description": "Depictions of specific occurrences or happenings, often capturing dynamic moments.",
+                          "classes": [
+                            {
+                              "name": "Festivals and Celebrations",
+                              "description": "Scenes from cultural festivals, parties, and other celebratory events.",
+                              "entities": [
+                                {
+                                  "name": "Fireworks",
+                                  "description": "Colorful explosives that create bright patterns of light in the sky.",
+                                  "parts": ["spark", "burst", "trail", "glow", "fragment"]
+                                },
+                                {
+                                  "name": "Confetti",
+                                  "description": "Small pieces of paper or foil in various colors, usually thrown for celebration.",
+                                  "parts": ["paper", "flake", "glitter", "tint", "fragment"]
+                                },
+                                {
+                                  "name": "Traditional Costume",
+                                  "description": "An outfit that reflects cultural heritage, including distinctive patterns and accessories.",
+                                  "parts": ["embroider", "sleeve", "headdress", "belt", "trim"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Sports Events",
+                              "description": "Action-packed moments from various sports activities.",
+                              "entities": [
+                                {
+                                  "name": "Soccer Ball",
+                                  "description": "A spherical object typically covered in black and white panels, used for the game of soccer.",
+                                  "parts": ["panel", "seam", "stitch", "curve", "surface"]
+                                },
+                                {
+                                  "name": "Basketball Hoop",
+                                  "description": "A circular metal ring with a net attached, used for the game of basketball.",
+                                  "parts": ["rim", "net", "backboard", "support", "ring"]
+                                },
+                                {
+                                  "name": "Racing Helmet",
+                                  "description": "A protective covering for the head, often streamlined for activities like car or motorbike racing.",
+                                  "parts": ["visor", "padding", "strap", "shell", "vent"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Concerts and Performances",
+                              "description": "Live performances, music concerts, and theatrical shows.",
+                              "entities": [
+                                {
+                                  "name": "Stage Lights",
+                                  "description": "Bright lamps or spotlights used to illuminate performers on a stage.",
+                                  "parts": ["bulb", "shade", "reflector", "beam", "mount"]
+                                },
+                                {
+                                  "name": "Microphone",
+                                  "description": "A handheld or stand-mounted device that amplifies a speaker’s or singer’s voice.",
+                                  "parts": ["grill", "cable", "stand", "diaphragm", "body"]
+                                },
+                                {
+                                  "name": "Musical Instrument",
+                                  "description": "A device used to produce music, such as a guitar, violin, or drum.",
+                                  "parts": ["string", "key", "pad", "drum", "button"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Historical Events",
+                              "description": "Recreations or representations of significant moments from history.",
+                              "entities": [
+                                {
+                                  "name": "Vintage Clothing",
+                                  "description": "Older-style garments reflecting a past era, often with different cuts and fabrics than modern wear.",
+                                  "parts": ["button", "seam", "collar", "hem", "pocket"]
+                                },
+                                {
+                                  "name": "Old-fashioned Flag",
+                                  "description": "A banner with historic or traditional markings, sometimes featuring faded colors.",
+                                  "parts": ["pole", "fabric", "stripe", "emblem", "edge"]
+                                },
+                                {
+                                  "name": "Antique Weapon",
+                                  "description": "A tool or device used for combat in earlier times, often crafted from metal and wood.",
+                                  "parts": ["blade", "hilt", "guard", "pommel", "edge"]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Space",
+                          "description": "Imagery related to outer space, celestial bodies, and astronomical phenomena.",
+                          "classes": [
+                            {
+                              "name": "Planets and Moons",
+                              "description": "Depictions of celestial bodies within and beyond our solar system.",
+                              "entities": [
+                                {
+                                  "name": "Earth",
+                                  "description": "A sphere with blue oceans, green or brown landmasses, and white cloud patterns.",
+                                  "parts": ["continent", "ocean", "atmosphere", "crust", "core"]
+                                },
+                                {
+                                  "name": "Moon",
+                                  "description": "A round, cratered celestial body, usually pale grey or white in appearance.",
+                                  "parts": ["crater", "mare", "ridge", "surface", "limb"]
+                                },
+                                {
+                                  "name": "Ringed Planet",
+                                  "description": "A large, spherical planet encircled by a flat, ring-shaped collection of particles.",
+                                  "parts": ["ring segment", "belt", "atmosphere", "cloud", "shadow"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Stars and Galaxies",
+                              "description": "Vast expanses of stars, nebulae, and galactic formations.",
+                              "entities": [
+                                {
+                                  "name": "Star Cluster",
+                                  "description": "A group of small, bright points of light close together against a dark background.",
+                                  "parts": ["star", "glow", "spark", "orbit", "flare"]
+                                },
+                                {
+                                  "name": "Galaxy Spiral",
+                                  "description": "A broad, swirling shape with arms trailing around a bright center.",
+                                  "parts": ["arm", "core", "dust lane", "spiral", "halo"]
+                                },
+                                {
+                                  "name": "Nebula",
+                                  "description": "A colorful, cloud-like formation of gas and dust illuminated in space.",
+                                  "parts": ["gas", "dust", "cloud", "streak", "glow"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Spacecraft and Satellites",
+                              "description": "Vehicles and devices used for space exploration and communication.",
+                              "entities": [
+                                {
+                                  "name": "Rocket",
+                                  "description": "A tall, cylindrical craft that propels itself using powerful engines to leave a planet’s surface.",
+                                  "parts": ["engine", "fuselage", "nose cone", "fin", "exhaust"]
+                                },
+                                {
+                                  "name": "Space Shuttle",
+                                  "description": "A reusable spacecraft with wings and an aerodynamic body designed for orbital travel.",
+                                  "parts": ["wing", "fuselage", "cargo bay", "cockpit", "tail"]
+                                },
+                                {
+                                  "name": "Satellite",
+                                  "description": "A machine placed in orbit around a celestial body, often with solar panels and antennas.",
+                                  "parts": ["solar panel", "antenna", "sensor", "body", "module"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Astronomical Events",
+                              "description": "Occurrences such as eclipses, meteor showers, and supernovas.",
+                              "entities": [
+                                {
+                                  "name": "Solar Eclipse",
+                                  "description": "A dark disc passing over the sun, creating a ring or total blockage of sunlight.",
+                                  "parts": ["corona", "shadow", "ring", "umbra", "penumbra"]
+                                },
+                                {
+                                  "name": "Meteor",
+                                  "description": "A bright streak of light caused by a small object burning up as it enters the atmosphere.",
+                                  "parts": ["trail", "fragment", "glow", "shockwave", "dust"]
+                                },
+                                {
+                                  "name": "Comet",
+                                  "description": "A celestial body with a glowing head and a trailing, bright tail of dust and gas.",
+                                  "parts": ["coma", "tail", "nucleus", "ice", "dust"]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Historical",
+                          "description": "Images reflecting specific time periods, styles, or events from history.",
+                          "classes": [
+                            {
+                              "name": "Ancient Civilizations",
+                              "description": "Scenes inspired by societies like Ancient Egypt, Rome, or Greece.",
+                              "entities": [
+                                {
+                                  "name": "Pyramid",
+                                  "description": "A massive structure with a square base and four triangular sides meeting at a point.",
+                                  "parts": ["stone block", "corner", "face", "capstone", "step"]
+                                },
+                                {
+                                  "name": "Greek Column",
+                                  "description": "A tall, cylindrical pillar with fluted sides and an ornate capital at the top.",
+                                  "parts": ["flute", "capital", "base", "shaft", "entasis"]
+                                },
+                                {
+                                  "name": "Roman Helmet",
+                                  "description": "A metal headgear with a crest or plume, used by Roman soldiers in ancient times.",
+                                  "parts": ["crest", "visor", "padding", "strap", "brow"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Medieval",
+                              "description": "Depictions of the Middle Ages, including castles, knights, and feudal settings.",
+                              "entities": [
+                                {
+                                  "name": "Knight Armor",
+                                  "description": "A protective metal suit covering the entire body, often with a visor on the helmet.",
+                                  "parts": ["plate", "helmet", "gauntlet", "greave", "shield"]
+                                },
+                                {
+                                  "name": "Medieval Sword",
+                                  "description": "A long metal blade with a handle, used in close combat during the Middle Ages.",
+                                  "parts": ["blade", "hilt", "pommel", "crossguard", "edge"]
+                                },
+                                {
+                                  "name": "Castle Gate",
+                                  "description": "A large wooden or metal entrance set within thick walls, typically part of a fortress.",
+                                  "parts": ["barrel", "hinge", "bolt", "arch", "knocker"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Industrial Era",
+                              "description": "Imagery reflecting the Industrial Revolution with factories, machinery, and urbanization.",
+                              "entities": [
+                                {
+                                  "name": "Steam Engine",
+                                  "description": "A machine powered by boiling water and steam pressure, featuring a large boiler.",
+                                  "parts": ["piston", "boiler", "valve", "cylinder", "gauge"]
+                                },
+                                {
+                                  "name": "Factory Chimney",
+                                  "description": "A tall brick or metal tower emitting smoke, connected to industrial buildings.",
+                                  "parts": ["brick", "flue", "cap", "smoke vent", "mortar"]
+                                },
+                                {
+                                  "name": "Steam Locomotive",
+                                  "description": "A railway engine fueled by coal or wood, generating steam to drive its pistons.",
+                                  "parts": ["cannon", "smokestack", "wheel", "coupler", "piston"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Modern History",
+                              "description": "Scenes from the 20th and 21st centuries, including contemporary settings and events.",
+                              "entities": [
+                                {
+                                  "name": "Old Television Set",
+                                  "description": "A box-like device with a small, rounded screen and dials on the front.",
+                                  "parts": ["screen", "dial", "knob", "speaker", "antenna"]
+                                },
+                                {
+                                  "name": "Vintage Car",
+                                  "description": "A motor vehicle from past decades with a classic body style and chrome details.",
+                                  "parts": ["chrome", "grille", "headlight", "tire", "fender"]
+                                },
+                                {
+                                  "name": "Modern Skyscraper",
+                                  "description": "A tall building featuring large glass panels and a sleek, contemporary shape.",
+                                  "parts": ["glass panel", "steel beam", "elevator", "window", "corner"]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Everyday Life",
+                          "description": "Ordinary, day-to-day activities and settings that reflect common human experiences.",
+                          "classes": [
+                            {
+                              "name": "Home and Family",
+                              "description": "Scenes depicting domestic life, family interactions, and household settings.",
+                              "entities": [
+                                {
+                                  "name": "Parent",
+                                  "description": "An adult human figure responsible for caring for children, with one head and limbs.",
+                                  "parts": ["hand", "smile", "eye", "hair strand", "heart"]
+                                },
+                                {
+                                  "name": "Child",
+                                  "description": "A young human figure with smaller proportions but the same basic body structure.",
+                                  "parts": ["small hand", "foot", "cheek", "giggle", "curiosity"]
+                                },
+                                {
+                                  "name": "Family Pet",
+                                  "description": "A domestic animal, such as a dog or cat, that shares a home with humans.",
+                                  "parts": ["paw", "fur", "tail", "whisker", "nose"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Work and Office",
+                              "description": "Depictions of professional environments and workplace activities.",
+                              "entities": [
+                                {
+                                  "name": "Office Desk",
+                                  "description": "A flat surface with drawers or compartments, used for work or study.",
+                                  "parts": ["drawer", "surface", "leg", "handle", "corner"]
+                                },
+                                {
+                                  "name": "Computer",
+                                  "description": "An electronic device with a monitor, keyboard, and system unit for processing tasks.",
+                                  "parts": ["keyboard", "screen", "mouse", "port", "fan"]
+                                },
+                                {
+                                  "name": "Office Chair",
+                                  "description": "A seat often on wheels, with a cushioned backrest and adjustable height.",
+                                  "parts": ["wheel", "cushion", "armrest", "back support", "base"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Leisure and Hobbies",
+                              "description": "Activities people engage in during their free time, such as reading, cooking, or gardening.",
+                              "entities": [
+                                {
+                                  "name": "Book",
+                                  "description": "A set of written pages bound together inside a cover, often rectangular in shape.",
+                                  "parts": ["page", "cover", "spine", "corner", "binding"]
+                                },
+                                {
+                                  "name": "Cooking Utensils",
+                                  "description": "Tools used in preparing meals, such as spoons, spatulas, and ladles.",
+                                  "parts": ["spoon", "fork", "handle", "edge", "bowl"]
+                                },
+                                {
+                                  "name": "Gardening Tools",
+                                  "description": "Implements like trowels and shears for maintaining or planting in outdoor spaces.",
+                                  "parts": ["trowel", "shear", "handle", "blade", "grip"]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Transportation",
+                              "description": "Daily commutes, public transportation, and personal travel scenarios.",
+                              "entities": [
+                                {
+                                  "name": "Bus",
+                                  "description": "A large vehicle with rows of seats, used for carrying many passengers.",
+                                  "parts": ["door", "window", "tire", "step", "sign"]
+                                },
+                                {
+                                  "name": "Train",
+                                  "description": "A series of connected vehicles running on tracks, typically carrying passengers or cargo.",
+                                  "parts": ["carriage", "coupler", "window", "door", "wheel"]
+                                },
+                                {
+                                  "name": "Taxi",
+                                  "description": "A car, usually marked or painted distinctively, used for paid passenger transport.",
+                                  "parts": ["meter", "hood", "wheel", "window", "sign"]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                      
+                },
+                {
+                    "name": "Relation",
+                    "description": "How elements in the image interact, connect, or are positioned relative to each other.",
+                    "classes": [
+                      {
+                        "name": "Action",
+                        "description": "Depictions of movement or activity within the image (e.g., running, waving, dancing).",
+                        "classes": [
+                          {
+                            "name": "Gesture",
+                            "description": "Smaller-scale movements like hand waves, pointing, or facial expressions.",
+                            "classes": [
+                              {
+                                "name": "Pointing",
+                                "description": "Extending a finger or object to direct attention toward something."
+                              },
+                              {
+                                "name": "Waving",
+                                "description": "Moving the hand or arm to greet or signal."
+                              },
+                              {
+                                "name": "Facial Expression",
+                                "description": "Communicating emotion or intent through the face (e.g., smiling, frowning)."
+                              },
+                              {
+                                "name": "Nodding",
+                                "description": "Up-and-down head movement, often indicating agreement or acknowledgment."
+                              }
+                            ]
+                          },
+                          {
+                            "name": "Full-Body Movement",
+                            "description": "Actions involving the entire figure’s motion or dynamic poses.",
+                            "classes": [
+                              {
+                                "name": "Running",
+                                "description": "Quick forward movement using legs in a stride."
+                              },
+                              {
+                                "name": "Dancing",
+                                "description": "Rhythmic or expressive body movements, often set to music."
+                              },
+                              {
+                                "name": "Jumping",
+                                "description": "Propelling the entire body upward or forward, leaving the ground."
+                              },
+                              {
+                                "name": "Swimming",
+                                "description": "Moving through water using arms and legs."
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Spatial",
+                        "description": "Positional relationships between objects or entities, including perspective and overall composition.",
+                        "classes": [
+                          {
+                            "name": "Foreground/Background",
+                            "description": "Distinction of depth, with objects placed prominently in the front or receding in the back.",
+                            "classes": [
+                              {
+                                "name": "Foreground Emphasis",
+                                "description": "Object(s) drawn or photographed in sharp focus or larger scale to highlight importance."
+                              },
+                              {
+                                "name": "Midground Placement",
+                                "description": "Object(s) positioned at an intermediate depth, balancing foreground and background."
+                              },
+                              {
+                                "name": "Background Silhouette",
+                                "description": "Object(s) placed further away, potentially in less detail or lighter focus."
+                              }
+                            ]
+                          },
+                          {
+                            "name": "Proximity/Overlap",
+                            "description": "Objects partially overlapping or placed close/far from one another.",
+                            "classes": [
+                              {
+                                "name": "Close Proximity",
+                                "description": "Objects near each other without necessarily overlapping."
+                              },
+                              {
+                                "name": "Overlapping Forms",
+                                "description": "One object partially covers another."
+                              },
+                              {
+                                "name": "Left-of",
+                                "description": "An object positioned to the left side relative to another object (from the viewer’s perspective)."
+                              },
+                              {
+                                "name": "Right-of",
+                                "description": "An object positioned to the right side relative to another object (from the viewer’s perspective)."
+                              },
+                              {
+                                "name": "Above",
+                                "description": "An object located higher than another object in the composition."
+                              },
+                              {
+                                "name": "Below",
+                                "description": "An object located lower than another object in the composition."
+                              },
+                              {
+                                "name": "Inside",
+                                "description": "An object located within another object."
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "Scale",
+                        "description": "Relative sizes or proportions of objects in the scene, such as one object being larger than another.",
+                        "classes": [
+                          {
+                            "name": "Exaggerated",
+                            "description": "Deliberate distortion of size, making some objects abnormally large or small.",
+                            "classes": [
+                              {
+                                "name": "Giant Figures",
+                                "description": "Figures depicted at an unusually large scale compared to the environment."
+                              },
+                              {
+                                "name": "Miniature Objects",
+                                "description": "Objects significantly smaller than their typical real-world size."
+                              },
+                              {
+                                "name": "Distorted Perspective",
+                                "description": "Using extreme angles or vantage points to amplify or shrink perceived size."
+                              }
+                            ]
+                          },
+                          {
+                            "name": "Realistic Scale",
+                            "description": "Accurate proportions and relative sizes compared to real-world standards.",
+                            "classes": [
+                              {
+                                "name": "Life-Size Representation",
+                                "description": "Depicting figures or objects in standard human-scale or natural proportions."
+                              },
+                              {
+                                "name": "Proportional Figures",
+                                "description": "Figures shown with typical body proportions relative to each other."
+                              },
+                              {
+                                "name": "Consistent Depth",
+                                "description": "Objects remain in correct relative sizes as they recede or advance in the composition."
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                },
+                {
+                    "name": "Attribute",
+                    "description": "Specific qualities of the image or objects within it, ranging from visual style to materials used.",
+                    "classes": [
+                        {
+                            "name": "Color",
+                            "description": "Hue, saturation, and brightness of elements in the image, including overall color palette.",
+                            "classes": [
+                                {
+                                    "name": "Monochrome",
+                                    "description": "Use of a single color or grayscale for a unified palette."
+                                },
+                                {
+                                    "name": "Vibrant",
+                                    "description": "Bright, saturated colors used prominently."
+                                },
+                                {
+                                    "name": "Red",
+                                    "description": "Containing the color red."
+                                },
+                                {
+                                    "name": "Blue",
+                                    "description": "Containing the color blue."
+                                },
+                                {
+                                    "name": "Green",
+                                    "description": "Containing the color green."
+                                },
+                                {
+                                    "name": "Yellow",
+                                    "description": "Containing the color yellow."
+                                },
+                                {
+                                    "name": "Purple",
+                                    "description": "Containing the color purple."
+                                },
+                                {
+                                    "name": "Orange",
+                                    "description": "Containing the color orange."
+                                },
+                                {
+                                    "name": "Pink",
+                                    "description": "Containing the color pink."
+                                },
+                                {
+                                    "name": "Brown",
+                                    "description": "Containing the color brown."
+                                },
+                                {
+                                    "name": "Black",
+                                    "description": "Containing the color black."
+                                },
+                                {
+                                    "name": "White",
+                                    "description": "Containing the color white."
+                                }
+                                
+                            ]
+                        },
+                        {
+                            "name": "Texture",
+                            "description": "The perceived surface characteristics (e.g., smooth, rough, metallic) of objects in the image.",
+                            "classes": [
+                                {
+                                    "name": "Smooth",
+                                    "description": "Flat or glossy surfaces without noticeable bumps or grain."
+                                },
+                                {
+                                    "name": "Rough",
+                                    "description": "Visibly coarse or uneven surfaces, as in wood grain or stone."
+                                },
+                                {
+                                    "name": "Reflective",
+                                    "description": "Shiny surfaces that mirror surroundings, like metal or glass."
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Shape",
+                            "description": "The form or outline of objects, including geometrical structure and silhouettes.",
+                            "classes": [
+                                {
+                                    "name": "Geometric",
+                                    "description": "Objects with clear angular or rounded geometry, such as circles, squares, or polygons."
+                                },
+                                {
+                                    "name": "Organic",
+                                    "description": "Soft or irregular outlines reminiscent of forms found in nature."
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Style",
+                            "description": "Artistic or aesthetic manner in which the image is rendered (e.g., realistic, cartoonish, impressionistic).",
+                            "classes": [
+                                {
+                                    "name": "Realistic",
+                                    "description": "Rendered to closely mimic real-world appearances, lighting, and textures."
+                                },
+                                {
+                                    "name": "Impressionistic",
+                                    "description": "Painterly style with loose brushstrokes or abstract representation of forms."
+                                },
+                                {
+                                    "name": "Minimalist",
+                                    "description": "Simplified or pared-down compositions with a focus on essential elements."
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Material",
+                            "description": "What objects appear to be made of (wood, metal, plastic, etc.) and how those materials are visually represented.",
+                            "classes": [
+                                {
+                                    "name": "Metallic",
+                                    "description": "Shiny, reflective surfaces like steel or gold."
+                                },
+                                {
+                                    "name": "Wooden",
+                                    "description": "Surfaces with wood grain or organic textures."
+                                },
+                                {
+                                    "name": "Fabric",
+                                    "description": "Textiles such as cotton, silk, or wool with a visually recognizable weave."
+                                },
+                                {
+                                    "name": "Plastic",
+                                    "description": "Smooth, synthetic surfaces with a uniform appearance."
+                                },
+                                {
+                                    "name": "Glass",
+                                    "description": "Transparent or translucent material with reflective properties."
+                                },
+                                {
+                                    "name": "Stone",
+                                    "description": "Rough, solid surfaces like granite or marble."
+                                },
+                                {
+                                    "name": "Paper",
+                                    "description": "Thin, flat material with a fibrous texture, often used for writing or printing."
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Lighting",
+                            "description": "Illumination within the scene, including highlights, shadows, and directional or ambient light sources.",
+                            "classes": [
+                                {
+                                    "name": "Natural Light",
+                                    "description": "Sunlight or soft ambient illumination reflecting a natural environment."
+                                },
+                                {
+                                    "name": "Artificial Light",
+                                    "description": "Lighting that appears to come from lamps, neon signs, or other man-made sources."
+                                },
+                                {
+                                    "name": "High Contrast",
+                                    "description": "Strong differentiation between light and dark areas, creating pronounced shadows."
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Layout",
+                            "description": "Arrangement and organization of elements in the image, including framing and use of space.",
+                            "classes": [
+                                {
+                                    "name": "Centered",
+                                    "description": "Key subject(s) placed prominently in the center of the frame."
+                                },
+                                {
+                                    "name": "Rule of Thirds",
+                                    "description": "Composition aligning subjects with imaginary grid lines for visual balance."
+                                },
+                                {
+                                    "name": "Asymmetrical",
+                                    "description": "Deliberate imbalance in placement of elements for a dynamic or informal composition."
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

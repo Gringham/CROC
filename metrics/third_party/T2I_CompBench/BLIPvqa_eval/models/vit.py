@@ -13,8 +13,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from functools import partial
 
-from vmen.metrics.third_party.timm.models.vision_transformer import PatchEmbed
-from vmen.metrics.third_party.timm.models.layers import trunc_normal_, DropPath
+from timm.models.vision_transformer import PatchEmbed
+from timm.models.layers import trunc_normal_, DropPath
 
 from fairscale.nn.checkpoint.checkpoint_activations import checkpoint_wrapper
 

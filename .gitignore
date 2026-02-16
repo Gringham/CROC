@@ -159,3 +159,4 @@ vmen/metrics/third_party/T2I_CompBench/UniDet_eval/UniDet_eval/
 !analyze_core
 !analyze_core/**
 !analyze_core/**/**
+logs/
