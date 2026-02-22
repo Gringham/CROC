@@ -1,0 +1,676 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Image–Text Match</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:#f7f7f7; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    .card { background:#fff; border-radius:14px; box-shadow:0 2px 18px rgba(0,0,0,.06); padding:20px; }
+    .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .pill { display:inline-block; padding:6px 10px; background:#eee; border-radius:999px; font-size:.9rem; }
+    .progress { height:8px; background:#e6e6e6; border-radius:999px; overflow:hidden; }
+    .bar { height:8px; background:#111; width:0%; }
+    .imgbox { width:100%; text-align:center; min-height:200px; display:flex; align-items:center; justify-content:center; }
+    img { max-width:100%; height:auto; border-radius:10px; background:#eee; }
+    .mt { margin-top:16px; } .muted { color:#555; font-size:.95rem; }
+    .btn { background:#111; color:#fff; border:0; border-radius:10px; padding:10px 16px; font-weight:600; cursor:pointer; }
+    .btn[disabled]{ opacity:.6; cursor:not-allowed; }
+    .valueBadge { display:inline-block; background:#111; color:#fff; border-radius:999px; padding:4px 10px; font-weight:600; margin-bottom:6px; }
+    .hid { display:none; } .center{text-align:center;}
+    .btn-copy { background:#444; }
+
+    /* Overview grid */
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap:10px; }
+    .cell { border:1px solid #ddd; border-radius:10px; padding:10px; text-align:center; cursor:pointer; user-select:none; }
+    .cell.done { background:#e6ffe9; border-color:#9ad3a6; }
+    .cell.curr { outline:3px solid #111; }
+
+    .toolbar .btn { background:#222; }
+
+    /* Examples (stacked, full width) */
+    .examples { margin-top:18px; }
+    .examples h3 { margin: 12px 0 10px; font-size:1.05rem; }
+    .ex-grid { display:flex; flex-direction:column; gap:18px; }
+    .ex-card { width:100%; border:1px solid #e5e5e5; border-radius:12px; padding:12px; background:#fafafa; }
+    .ex-title { font-weight:600; margin-bottom:6px; }
+    .ex-img { width:100%; height:auto; display:block; border-radius:8px; background:#eee; }
+    .ex-slider { width:100%; margin-top:8px; opacity:.9; }
+    .ex-badge { display:inline-block; background:#333; color:#fff; border-radius:999px; padding:2px 10px; font-size:.9rem; }
+    .ex-note { font-size:.92rem; color:#444; margin-top:8px; line-height:1.35; }
+
+    /* Text panel */
+    .textpanel {
+      white-space: pre-wrap;
+      background:#fafafa;
+      border:1px solid #e5e5e5;
+      border-radius:10px;
+      padding:12px;
+      line-height:1.35;
+      font-size:.98rem;
+    }
+
+    .note { background:#f6f6f6; border:1px solid #e7e7e7; padding:10px; border-radius:8px; }
+    .consent-list li { margin: 6px 0; }
+
+    /* Attention-check note (subtle) */
+    .attn-note { color:#666; font-size:.9rem; margin-top:6px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- CONSENT -->
+    <div id="screen-consent" class="card">
+      <h2>Participant Information & Consent</h2>
+      <p class="muted">Please read this information carefully before deciding whether to take part.</p>
+
+      <div class="note">
+        <ul class="muted consent-list">
+          <li><b>Purpose:</b> We are studying how well <b>texts</b> match <b>images</b>.</li>
+          <li><b>What you'll do:</b> View images and rate the text–image match on a 1–5 slider.</li>
+          <li><b>Data collected:</b> Your Prolific ID, your ratings (text–image quality labels), and timestamps. <u>No other personal data are collected by this app.</u> Your <b>text–image labels may be published</b> later in aggregated/anonymized form for research.</li>
+          <li><b>Voluntary:</b> Participation is voluntary; you may stop at any time without penalty. You can withdraw by closing the study and contacting us via Prolific messages with your Prolific ID.</li>
+          <li><b>Risks/benefits:</b> Minimal risk (viewing general images and texts). No direct personal benefit.</li>
+          <li><b>Usage:</b> Results may be shared publicly in anonymized/aggregated form.</li>
+          <li><b>Eligibility:</b> You confirm you are 18+ and understand the information above.</li>
+          <li><b>Contact:</b> For questions or concerns, please message the researcher via Prolific.</li>
+          <li><b>Attention Checks:</b> There will be occassional attention checks included.</li>
+          <li><b>AI Use:</b> AI should not be used in the rating process.</li>
+        </ul>
+      </div>
+
+      <div class="mt">
+        <label>Prolific Participant ID</label>
+        <input id="pid-consent" autocomplete="off" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px" />
+      </div>
+
+      <div class="mt">
+        <label style="display:flex;gap:10px;align-items:flex-start;">
+          <input id="chk-consent" type="checkbox" />
+          <span class="muted">
+            I have read and understood the information above. I am 18+ and <b>I consent</b> to take part. I understand that the data collected are my text–image ratings and timestamps, and that aggregated/anonymized labels may be published.
+          </span>
+        </label>
+      </div>
+
+      <div class="mt row" style="justify-content:flex-end; gap:10px;">
+        <button class="btn" id="btn-decline" style="background:#6b6b6b">Decline</button>
+        <button class="btn" id="btn-consent-continue" disabled>Continue</button>
+      </div>
+    </div>
+
+    <!-- INTRO -->
+    <div id="screen-intro" class="card hid">
+      <h2>Welcome</h2>
+
+      <p class="muted">
+        Your task is to rate how well <b>texts</b> match <b>images</b>. <br/><br/>
+        <u>Guidelines</u>:
+      </p>
+
+      <ul class="muted">
+        <li>Read the text and focus on its core visual details (objects, attributes, relationships).</li>
+        <li>Use the slider to score the <b>image(s)</b> that are most aligned/matched with the text, where <b>1 = Poor match</b> and <b>5 = Excellent match</b>.<br/>
+          – If one image fits best, score that one.<br/>
+          – If several fit equally well, score each of them the same.<br/>
+          – Do not consider distortions like blurriness unless they affect the perceived match.<br/>
+          – There is no need to click or highlight anything; just use the slider.
+        </li>
+      </ul>
+
+      <!-- Rating scale -->
+      <div class="mt">
+        <div class="muted" style="font-weight:600; margin-bottom:6px;">Rating scale (1–5)</div>
+        <ul class="muted" style="margin-top:6px;">
+          <li><b>1 – Poor match:</b> Text contradicts the image(s) and/or none of the key elements is shown.</li>
+          <li><b>2 – Weak match:</b> Some overlap, but important elements are wrong or missing.</li>
+          <li><b>3 – Fair match:</b> Generally related; several details fit but lack precision.</li>
+          <li><b>4 – Good match:</b> Most details fit; only minor aspects are off.</li>
+          <li><b>5 – Excellent match:</b> The image(s) clearly show what the text describes.</li>
+        </ul>
+      </div>
+
+      <!-- Examples -->
+      <div class="examples">
+        <h3>Examples</h3>
+        <div class="ex-grid">
+          <div class="ex-card">
+            <div class="ex-title">Example A</div>
+            <img id="ex-img-1" class="ex-img" alt="Example A" />
+            <div class="valueBadge ex-badge" id="ex-badge-1">4.00</div>
+            <input id="ex-slider-1" class="ex-slider" type="range" min="1" max="5" step="0.01" value="4" disabled>
+            <div class="ex-note" id="ex-note-1">
+              This is an example of a <em>very good</em> match: the text clearly and accurately describes what’s visible in the image.
+            </div>
+          </div>
+
+          <div class="ex-card">
+            <div class="ex-title">Example B</div>
+            <img id="ex-img-2" class="ex-img" alt="Example B" />
+            <div class="valueBadge ex-badge" id="ex-badge-2">2.00</div>
+            <input id="ex-slider-2" class="ex-slider" type="range" min="1" max="5" step="0.01" value="2.0" disabled>
+            <div class="ex-note" id="ex-note-2">
+              This is an example of a <em>poor</em> match: key parts of the text are not shown in the image.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <label>Prolific Participant ID</label>
+      <input id="pid" autocomplete="off" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px" />
+
+      <div class="mt center">
+        <button class="btn" id="btn-go-overview">Continue</button>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div id="screen-overview" class="card hid">
+      <div class="row">
+        <div class="pill" id="ov-summary">0 / 0 completed</div>
+        <div style="flex:1"></div>
+        <div class="toolbar">
+          <button class="btn" id="ov-back">Back</button>
+          <button class="btn" id="ov-start">Start / Continue</button>
+        </div>
+      </div>
+      <div class="mt grid" id="ov-grid"></div>
+    </div>
+
+    <!-- TASK -->
+    <div id="screen-task" class="card hid">
+      <div class="row">
+        <div class="pill" id="counter">Sample 0 of 0</div>
+        <div style="flex:1"></div>
+        <div style="min-width:160px;"><div class="progress"><div id="bar" class="bar"></div></div></div>
+      </div>
+
+      <!-- Text above image -->
+      <div id="textwrap" class="mt">
+        <div class="row" style="align-items:baseline;">
+          <div class="muted" style="font-weight:600;">Text</div>
+          <div style="flex:1"></div>
+          <button class="btn btn-copy hid" id="btn-copy">Copy</button>
+        </div>
+        <div id="thetext" class="textpanel" style="min-height:40px;"></div>
+      </div>
+
+      <div class="imgbox mt">
+        <img id="theimg" alt="Image to rate" />
+      </div>
+
+      <div class="mt">
+        <div class="valueBadge" id="valBadge">3.00</div>
+        <input id="slider" type="range" min="1" max="5" step="0.01" value="3" style="width:100%" />
+        <div class="row"><div class="muted">Poor match</div><div style="flex:1"></div><div class="muted">Excellent match</div></div>
+        <!-- Subtle attention-check note -->
+        <div id="attn-instruction" class="attn-note hid"></div>
+      </div>
+
+      <div class="mt row center" style="justify-content:center; gap:10px;">
+        <button class="btn" id="btn-back">Back</button>
+        <button class="btn" id="btn-overview">Overview</button>
+        <button class="btn" id="btn-submit" disabled>Submit & Next</button>
+      </div>
+    </div>
+
+    <!-- DEBRIEF -->
+    <div id="screen-debrief" class="card hid">
+      <h2>Debrief</h2>
+      <p class="muted">Thank you for taking part in this study.</p>
+      <div class="note" style="margin-top:10px;">
+        <ul class="muted" style="margin:0; padding-left:18px;">
+          <li><b>Purpose:</b> This research investigates how well short texts match images.</li>
+          <li><b>Your data:</b> We collected your Prolific ID, your 1–5 ratings (text–image quality labels), and timestamps.
+              These labels may be published later in aggregated/anonymized form for research.</li>
+          </ul>
+      </div>
+      <p>
+        <b>Completion Code:</b> CNMJXQ0E<br/>
+        Please copy this code into Prolific to confirm your participation.
+      </p>
+      <div class="mt center">
+        <button class="btn" id="btn-debrief-finish">Finish</button>
+      </div>
+    </div>
+
+    <!-- DONE -->
+    <div id="screen-done" class="card hid center">
+      <h2>All done — thank you!</h2>
+      <p>
+        <b>Completion Code:</b> CNMJXQ0E<br/>
+        Please copy this code into Prolific to confirm your participation.
+      </p>
+    </div>
+
+    <!-- EXIT (declined consent) -->
+    <div id="screen-exit" class="card hid center">
+      <h2>Thank you</h2>
+      <p class="muted">You chose not to take part. You may now close this window and return to Prolific.</p>
+    </div>
+
+  </div>
+
+  <script>
+    // ====== Examples (served from /web/examples/) ======
+    const EXAMPLES = [
+      { src: "examples/subject_property_Leisure_and_Hobbies_Brown__fn.jpg", value: 2,
+        text: "This is an example of a poor match: the terms 'soft lighting' and 'peaceful atmosphere' are fulfilled, but important aspects like 'cozy wooden cabin' are left out." },
+      { src: "examples/subject_property_Sports_Events_Metallic__fm.jpg", value: 4,
+        text: "This is an example of a good match: the property 'metallic stadium' is fulfilled sufficiently on image 2. It does not get 5 points, because there are no robots visible on the playfield." }
+    ];
+
+    // ====== URL params (Prolific) ======
+    const params    = new URLSearchParams(location.search);
+    const RAW_QUERY = location.search.startsWith('?') ? location.search.slice(1) : "";
+
+    const PID_Q       = params.get("PROLIFIC_PID") || "";
+    const STUDY_ID    = params.get("STUDY_ID") || "";
+    const SESSION_ID  = params.get("SESSION_ID") || "";
+
+    const BATCH       = Number(params.get("batch")   || 1);
+    const BATCHES     = Number(params.get("batches") || 1);
+    const SEED        = params.get("seed") || "";
+    const MAXCAP      = Number(params.get("max") || 0);
+
+    // ====== State ======
+    const PID_FORCE = (PID_Q || "").trim();      // from URL
+    let pid = PID_FORCE || localStorage.getItem("pid") || "";  // URL wins on every load
+
+    let total = 0;
+    let idx = 0;
+    let currentImageId = null;
+    let ratings = {};          // index -> value
+    let completed = new Set(); // indices completed
+
+    // Attention-check state (inserted BETWEEN normal items)
+    let sinceAttn = 0;                         // normal ratings since last attention
+    let nextAttnAfter = randInt(10, 20);       // trigger after N normal items
+    let attnPending = null;                    // {min, max, imageId}
+
+    // Submission lock to prevent double-submits advancing idx twice
+    let submitInFlight = false;
+
+    const $ = id => document.getElementById(id);
+
+    function setScreen(id){
+      for (const el of document.querySelectorAll('.card')) el.classList.add('hid');
+      $(id)?.classList.remove('hid');
+    }
+
+    function randInt(a, b){
+      a = Math.floor(a); b = Math.floor(b);
+      return a + Math.floor(Math.random()*(b - a + 1));
+    }
+
+    function pickRange(){
+      return Math.random() < 0.5 ? [1,2] : [3,4];
+    }
+
+    function attentionFluff(){
+      const lines = [
+        "A short caption about everyday objects on a table, describing their arrangement without referring to rating or instructions.",
+        "A brief description of a quiet street scene at dusk, focusing on lighting and shapes rather than specific identities.",
+        "A concise note about a generic indoor scene, mentioning surfaces and textures that could plausibly appear in many photos.",
+        "Some placeholder caption text that sketches a simple composition with foreground and background, intentionally neutral in tone.",
+        "A neutral sentence about a common setting like a park or room, offering context but avoiding any task-related hints."
+      ];
+      return lines[randInt(0, lines.length - 1)];
+    }
+
+    function loadExamples(){
+      const ex1 = EXAMPLES[0], ex2 = EXAMPLES[1];
+      if (ex1){
+        $('ex-slider-1').value = ex1.value;
+        $('ex-badge-1').textContent = Number(ex1.value).toFixed(2);
+        $('ex-note-1').textContent = ex1.text || '';
+        if (ex1.src) $('ex-img-1').src = ex1.src;
+      }
+      if (ex2){
+        $('ex-slider-2').value = ex2.value;
+        $('ex-badge-2').textContent = Number(ex2.value).toFixed(2);
+        $('ex-note-2').textContent = ex2.text || '';
+        if (ex2.src) $('ex-img-2').src = ex2.src;
+      }
+    }
+
+    // ---------- Consent wiring ----------
+    function refreshConsentButton(){
+      const ok = ($('pid-consent')?.value.trim() || '') !== '' && $('chk-consent')?.checked;
+      if ($('btn-consent-continue')) $('btn-consent-continue').disabled = !ok;
+    }
+
+    async function postConsent(consented) {
+      const body = {
+        pid: ($('pid-consent')?.value.trim() || '(none)'),
+        consented: !!consented,
+        studyId: STUDY_ID,
+        sessionId: SESSION_ID,
+        batch: BATCH, batches: BATCHES, seed: SEED, cap: MAXCAP,
+        rawQuery: RAW_QUERY,
+        ua: navigator.userAgent
+      };
+      try {
+        await fetch('/api/consent', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(body)
+        });
+      } catch(_) {}
+    }
+
+    // ---------- Overview helpers ----------
+    async function loadOverview(){
+      const info = await fetch(`/api/batch-info?batch=${BATCH}&batches=${BATCHES}&max=${MAXCAP}&seed=${encodeURIComponent(SEED)}`).then(r => r.json());
+      if (!info.ok) { alert('Failed to get batch info'); return; }
+      total = info.total;
+
+      const prog = await fetch(`/api/progress?pid=${encodeURIComponent(pid)}&batch=${BATCH}&batches=${BATCHES}&max=${MAXCAP}&seed=${encodeURIComponent(SEED)}`).then(r => r.json());
+      if (!prog.ok) { alert('Failed to get progress'); return; }
+      completed = new Set(prog.completed || []);
+      ratings = {};
+      for (const [k, v] of Object.entries(prog.ratings || {})) ratings[Number(k)] = v;
+      idx = Math.min(prog.next ?? 0, total);
+
+      $('ov-summary').textContent = `${completed.size} / ${total} completed`;
+
+      const grid = $('ov-grid'); grid.innerHTML = '';
+      for (let i=0; i<total; i++){
+        const div = document.createElement('div');
+        div.className = 'cell' + (completed.has(i) ? ' done' : '') + (i === idx ? ' curr' : '');
+        div.textContent = (i+1);
+        div.title = completed.has(i) ? `Done: ${Number(ratings[i]).toFixed(2)}` : 'Not rated';
+        div.onclick = async () => { idx = i; await startAtIndex(idx); };
+        grid.appendChild(div);
+      }
+    }
+
+    async function startAtIndex(i){
+      if (total === 0) {
+        const info = await fetch(`/api/batch-info?batch=${BATCH}&batches=${BATCHES}&max=${MAXCAP}&seed=${encodeURIComponent(SEED)}`).then(r => r.json());
+        if (!info.ok || !info.total) { alert('No images found'); return; }
+        total = info.total;
+      }
+      idx = Math.max(0, Math.min(Number(i || 0), total));
+      setScreen('screen-task');
+      await loadCurrent();
+    }
+
+    // -------- Attention-check helpers (inserted between normal items) --------
+    async function createAttentionTrial(){
+      // Choose a random image from the current batch, and a required range
+      const [min, max] = pickRange();
+      let rndIndex = randInt(0, Math.max(0, total - 1));
+      try {
+        const meta = await fetch(`/api/image-meta?batch=${BATCH}&batches=${BATCHES}&i=${rndIndex}&seed=${encodeURIComponent(SEED)}`).then(r => r.json());
+        if (meta && meta.id) {
+          attnPending = { min, max, imageId: meta.id };
+        }
+      } catch (_) {}
+      if (!attnPending) {
+        // fallback to current image if any
+        attnPending = { min, max, imageId: currentImageId };
+      }
+
+      // Log that we showed an attention check (but no rating yet)
+      try {
+        await fetch('/api/log', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ pid, action:'attention-check-show', index: idx, extra:{ required:[min, max], imageId: attnPending.imageId } })
+        });
+      } catch (_) {}
+    }
+
+
+    function showAttentionTrial(){
+      // Keep submit enabled so users can overwrite
+      $('btn-submit').disabled = false;
+
+      // Show a real image (random from current batch) as before
+      $('theimg').src = `/img/${attnPending.imageId}`;
+
+      // ⬇️ NEW: Put the instruction *inside* the text panel, mixed with random text
+      const fluff = attentionFluff();
+      $('thetext').textContent =
+        `${fluff} This is an Attention Check! Place the slider between ${attnPending.min}–${attnPending.max}. ${fluff}`;
+
+      // Keep the copy button hidden for attention checks (same behavior as before)
+      $('btn-copy').classList.add('hid');
+
+      // Hide the separate outside note (we no longer use it)
+      $('attn-instruction').classList.add('hid');
+      $('attn-instruction').textContent = '';
+    }
+
+    function hideAttentionTrial(){
+      $('attn-instruction').classList.add('hid');
+      $('attn-instruction').textContent = '';
+    }
+
+    // ---------- Task loader ----------
+    async function loadCurrent(){
+      // Insert attention check *between* items if due or pending
+      if (attnPending) {
+        showAttentionTrial();
+        return;
+      }
+      if (sinceAttn >= nextAttnAfter && total > 0) {
+        await createAttentionTrial();
+        if (attnPending) { showAttentionTrial(); return; }
+      }
+
+      // ---- Normal flow
+      hideAttentionTrial();
+
+      if (idx >= total) {
+        if (!window.__debriefShown) {
+          window.__debriefShown = true;
+          try {
+            await fetch('/api/log', {
+              method:'POST',
+              headers:{'Content-Type':'application/json'},
+              body: JSON.stringify({ pid, action:'debrief-show', index: idx })
+            });
+          } catch(_) {}
+          setScreen('screen-debrief');
+          return;
+        } else {
+          setScreen('screen-done');
+          return;
+        }
+      }
+
+      $('btn-submit').disabled = true;
+      $('counter').textContent = `Sample ${idx+1} of ${total}`;
+      $('bar').style.width = `${Math.round((idx/total)*100)}%`;
+
+      const meta = await fetch(`/api/image-meta?batch=${BATCH}&batches=${BATCHES}&i=${idx}&seed=${encodeURIComponent(SEED)}`).then(r => r.json());
+      if (!meta || !meta.id) { alert('Failed to resolve image'); return; }
+      currentImageId = meta.id;
+      $('theimg').src = `/img/${currentImageId}`;
+
+      // Fetch and display associated text
+      try {
+        const txt = await fetch(`/api/text-for-image?id=${encodeURIComponent(currentImageId)}`).then(r => r.json());
+        if (txt && txt.ok) {
+          $('thetext').textContent = txt.text || '';
+          if ((txt.text || '').trim()) $('btn-copy').classList.remove('hid'); else $('btn-copy').classList.add('hid');
+        } else {
+          $('thetext').textContent = ''; $('btn-copy').classList.add('hid');
+        }
+      } catch (_) {
+        $('thetext').textContent = ''; $('btn-copy').classList.add('hid');
+      }
+
+      if (ratings[idx] !== undefined){
+        $('slider').value = ratings[idx];
+        $('valBadge').textContent = Number(ratings[idx]).toFixed(2);
+        $('btn-submit').disabled = false; // allow overwrite
+      } else {
+        $('slider').value = 3;
+        $('valBadge').textContent = "3.00";
+      }
+    }
+
+    // ---------- Wire events ----------
+    document.addEventListener('DOMContentLoaded', () => {
+      // Consent page
+      $('pid-consent').value = pid;
+      $('pid-consent').addEventListener('input', refreshConsentButton);
+      $('chk-consent').addEventListener('change', refreshConsentButton);
+      refreshConsentButton();
+
+      $('btn-decline').onclick = async () => { await postConsent(false); setScreen('screen-exit'); };
+      $('btn-consent-continue').onclick = async () => {
+        pid = $('pid-consent').value.trim();
+        localStorage.setItem("pid", pid);
+        await postConsent(true);
+        $('pid').value = pid; // mirror PID into intro
+        loadExamples();
+        setScreen('screen-intro');
+      };
+
+      // Intro → Overview
+      $('pid').value = pid;
+      $('btn-go-overview').onclick = async () => {
+        pid = $('pid').value.trim();
+        if (!pid) { alert('Please enter your PROLIFIC_PID'); return; }
+        localStorage.setItem("pid", pid);
+        await loadOverview();
+        setScreen('screen-overview');
+      };
+
+      // Overview buttons
+      $('ov-back').onclick = () => setScreen('screen-intro');
+      $('ov-start').onclick = async () => { await startAtIndex(idx); };
+
+      // Task buttons
+      $('btn-overview').onclick = async () => { await loadOverview(); setScreen('screen-overview'); };
+
+      $('btn-back').onclick = async () => {
+        if (attnPending) {
+          // Back while in attention trial: just cancel it
+          attnPending = null;
+          hideAttentionTrial();
+          await loadCurrent();
+          try {
+            await fetch('/api/log', {
+              method:'POST', headers:{'Content-Type':'application/json'},
+              body: JSON.stringify({pid, action:'attention-check-cancel', index: idx})
+            });
+          } catch(_) {}
+          return;
+        }
+
+        if (idx > 0) { idx -= 1; await loadCurrent(); }
+        try {
+          await fetch('/api/log', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({pid, action:'nav-back', index: idx})
+          });
+        } catch(_) {}
+      };
+
+      // Copy text
+      $('btn-copy').onclick = async () => {
+        const t = $('thetext').textContent || '';
+        try {
+          await navigator.clipboard.writeText(t);
+          $('btn-copy').textContent = 'Copied!';
+          setTimeout(() => { $('btn-copy').textContent = 'Copy'; }, 1200);
+        } catch { alert('Could not copy to clipboard.'); }
+      };
+
+      // Slider
+      $('slider').addEventListener('input', () => {
+        $('valBadge').textContent = parseFloat($('slider').value).toFixed(2);
+        $('btn-submit').disabled = false;
+      });
+
+      // Submit (hardened against double-click/Enter spam)
+      $('btn-submit').onclick = async () => {
+        if (submitInFlight) return;
+        submitInFlight = true;
+        $('btn-submit').disabled = true;
+
+        // Snapshot target so late responses can't double-advance
+        const localIdx = idx;
+        const localImageId = currentImageId;
+
+        try {
+          const rating = parseFloat($('slider').value);
+
+          // If this is an attention-check trial, LOG ONLY and do not save rating
+          if (attnPending) {
+            const payload = {
+              pid,
+              action: 'attention-check',
+              index: localIdx, // keep aligned with the next normal item
+              extra: {
+                required: [attnPending.min, attnPending.max],
+                value: rating,
+                imageId: attnPending.imageId
+              }
+            };
+            try {
+              await fetch('/api/log', {
+                method:'POST', headers:{'Content-Type':'application/json'},
+                body: JSON.stringify(payload)
+              });
+            } catch(_) {}
+            // reset attention schedule and continue to the same idx normal item
+            attnPending = null;
+            sinceAttn = 0;
+            nextAttnAfter = randInt(10, 20);
+            await loadCurrent();
+            return;
+          }
+
+          // Normal rating flow (saved to DB)
+          const payload = {
+            pid, imageId: localImageId, rating,
+            index: localIdx, total, batch: BATCH, batches: BATCHES, seed: SEED,
+            ua: navigator.userAgent
+          };
+          const res = await fetch('/api/rate', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) { alert('Failed to submit rating'); return; }
+          ratings[localIdx] = rating; completed.add(localIdx);
+
+          // Update attention schedule (we insert attention BETWEEN items)
+          sinceAttn += 1;
+
+          // Only advance if we're still on the same item.
+          if (idx === localIdx && currentImageId === localImageId) {
+            idx = localIdx + 1;
+          }
+          await loadCurrent();
+        } finally {
+          submitInFlight = false;
+          // Button enabling is handled by loadCurrent/slider input
+        }
+      };
+
+      // Debrief finish
+      $('btn-debrief-finish').onclick = async () => {
+        try {
+          await fetch('/api/log', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ pid, action:'debrief-ack' })
+          });
+        } catch(_) {}
+        setScreen('screen-done');
+      };
+
+      // Start at consent
+      setScreen('screen-consent');
+    });
+  </script>
+</body>
+</html>
